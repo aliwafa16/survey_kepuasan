@@ -4,6 +4,19 @@
 
 ### [Unreleased]
 
+### v12.4.2 - 2025-09-09
+
+- fix: remove @internal annotation from orderColumn() method #3248
+
+### v12.4.1 - 2025-08-29
+
+- fix: request handling with playwright / pest 4 #3247
+
+### v12.4.0 - 2025-06-15
+
+- feat: add min search length control #3242
+- fix: #3241
+
 ### v12.3.1 - 2025-06-10
 
 - fix: support for array notation #3243

@@ -124,6 +124,8 @@ class QueryDataTable extends DataTableAbstract
     public function make(bool $mDataSupport = true): JsonResponse
     {
         try {
+            $this->validateMinLengthSearch();
+
             $results = $this->prepareQuery()->results();
             $processed = $this->processResults($results, $mDataSupport);
             $data = $this->transform($results, $processed);
@@ -623,7 +625,7 @@ class QueryDataTable extends DataTableAbstract
      * @param  array  $bindings
      * @return $this
      *
-     * @internal string $1 Special variable that returns the requested order direction of the column.
+     * string $1 Special variable that returns the requested order direction of the column.
      */
     public function orderColumn($column, $sql, $bindings = []): static
     {

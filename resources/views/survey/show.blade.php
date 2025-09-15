@@ -256,18 +256,38 @@
                                         // echo $count_soal;
                                         $total_persentase = $count_soal - ceil($count_soal * (25 / 100));
                                     @endphp
-                                    @foreach ($section as $question)
-                                        <div class="mb-6  pb-4">
-                                            <p class="mb-2 text-white font-medium">{{ $question['f_item_name'] }}</p>
-                                            <input type="range" name="answers[ex{{ $question['f_id'] }}]"
-                                                min="1" max="10" step="0.01" value="1"
-                                                class="">
-                                            <div class="flex justify-between w-full">
-                                                <div class="text-white">Sangat Tidak Setuju</div>
-                                                <div class="text-white">Sangat Setuju</div>
-                                            </div>
-                                        </div>
-                                    @endforeach
+                                   @foreach ($section as $question)
+    <div class="mb-6 pb-4">
+        <p class="mb-2 text-white font-medium">
+            {{ $question['f_item'] }}
+        </p>
+
+        @if ($question['type'] == 1)
+            @php
+                $answers = json_decode($question['f_answer'], true) ?? [];
+            @endphp
+
+            <div class="space-y-2">
+                @foreach ($answers as $answer)
+                    <label class="flex items-center space-x-2">
+                        <input type="radio"
+                               name="answers[ex{{ $question['f_id'] }}]"
+                               value="{{ $answer['value'] }}"
+                               class="text-blue-600 focus:ring-blue-500">
+                        <span class="text-white">{{ $answer['label'] }}</span>
+                    </label>
+                @endforeach
+            </div>
+
+        @elseif ($question['type'] == 2)
+            <textarea name="answers[ex{{ $question['f_id'] }}]"
+                      rows="3"
+                      class="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200">
+            </textarea>
+        @endif
+    </div>
+@endforeach
+
                                 </div>
                             @endforeach
 

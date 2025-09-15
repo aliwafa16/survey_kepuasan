@@ -33,6 +33,7 @@ use Illuminate\Support\Carbon;
 use App\Models\TingkatPekerjaan;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\ProcessCorporateSurvey;
+use App\Models\ItemPernyataanModel;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -49,18 +50,23 @@ class SurveyController extends Controller
     {
         $check_event_token = EventClient::where('f_event_kode', $event_client)->first();
 
-        $setting_profile = Setting::where('id_corporate', $check_event_token->f_corporate_id)->first();
+
+        $setting_profile = Setting::where('id_corporate', $check_event_token->f_account_id)->first();
+
 
 
         if ($check_event_token) {
             // Gabungkan tanggal & jam mulai dan selesai ke objek Carbon
-            $start = \Carbon\Carbon::parse($check_event_token->f_event_start . ' ' . $check_event_token->f_event_start_time);
-            $end = \Carbon\Carbon::parse($check_event_token->f_event_end . ' ' . $check_event_token->f_event_end_time);
+           $start = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $check_event_token->f_event_start);
+    $end   = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $check_event_token->f_event_end);
+
+    
+
 
 
             // Cek waktu pengisian
             if (now()->between($start, $end)) {
-                $jumlah_pengisian = TrnSurvey::where('f_corporate_id', $check_event_token->f_corporate_id)->where('f_event_id', $check_event_token->f_event_id)->count();
+                $jumlah_pengisian = TrnSurvey::where('f_account_id', $check_event_token->f_account_id)->where('f_event_id', $check_event_token->f_event_id)->count();
                 if ($jumlah_pengisian >= $check_event_token->f_event_min_respon) {
                     return view('survey.notfound', [
                         'setting' => $setting_profile,
@@ -68,24 +74,15 @@ class SurveyController extends Controller
                     ]);
                 } else {
 
-                    $data = Cache::remember('pernyataan_api_cache', 1440, function () {
-                        $response = Http::withHeaders([
-                            'Key' => 'oM7WmcuVkbPXj0mMcmEmIPD6NtbwrF2h',
-                        ])->withoutVerifying()->get('https://app.talentdna.me:3000/pernyataan');
 
-                        if ($response->successful()) {
-                            return $response->json()['data'];
-                        }
-                        return null;
-                    });
-
+                    $data = ItemPernyataanModel::all();
                     if ($data) {
                         // Ambil akun terlebih dahulu
-                        $akun = AccountClient::where('is_corporate', 1)->where('f_account_id', $check_event_token->f_corporate_id)->first();
+                        $akun = AccountClient::where('f_account_id', $check_event_token->f_account_id)->first();
 
 
                         // Membagi data menjadi 3 bagian
-                        $chunks = collect(value: $data)->chunk(ceil(count($data) / 3));
+                        $chunks = collect(value: $data)->chunk(ceil(count($data) / 2));
                         $list_demografi = ListDemo::where('f_account_id', $akun->f_account_id)->first();
                         $surveySetting = SurveySetting::where('f_account_id', $akun->f_account_id)->first();
                         $setting_profile = Setting::where('id_corporate', $akun->f_account_id)->first();
@@ -159,13 +156,13 @@ class SurveyController extends Controller
                         }
 
 
-                        if ($list_demografi->f_pendidikan == 1) {
-                            $demografi['pendidikan']['label'] = $label_others['education'];
-                            $demografi['pendidikan']['value'] = Pendidikan::where('f_account_id', $akun->f_account_id)->where('f_aktif', 1)->get();
-                        } else {
-                            $demografi['pendidikan']["label"] = NULL;
-                            $demografi['pendidikan']["value"] = NULL;
-                        }
+                        // if ($list_demografi->f_pendidikan == 1) {
+                        //     $demografi['pendidikan']['label'] = $label_others['education'];
+                        //     $demografi['pendidikan']['value'] = Pendidikan::where('f_account_id', $akun->f_account_id)->where('f_aktif', 1)->get();
+                        // } else {
+                        //     $demografi['pendidikan']["label"] = NULL;
+                        //     $demografi['pendidikan']["value"] = NULL;
+                        // }
 
                         if ($list_demografi->f_level1 == 1) {
                             $level['label_level1']['label'] = json_decode($surveySetting['f_label_level1'], true);
@@ -215,21 +212,21 @@ class SurveyController extends Controller
                             $level['label_level5']["value"] = NULL;
                         }
 
-                        if ($list_demografi->f_level6 == 1) {
-                            $level['label_level6']['label'] = json_decode($surveySetting['f_label_level6'], true);
-                            $level['label_level6']['value'] = Level6::where('f_account_id', $akun->f_account_id)->get();
-                        } else {
-                            $level['label_level6']["label"] = NULL;
-                            $level['label_level6']["value"] = NULL;
-                        }
+                        // if ($list_demografi->f_level6 == 1) {
+                        //     $level['label_level6']['label'] = json_decode($surveySetting['f_label_level6'], true);
+                        //     $level['label_level6']['value'] = Level6::where('f_account_id', $akun->f_account_id)->get();
+                        // } else {
+                        //     $level['label_level6']["label"] = NULL;
+                        //     $level['label_level6']["value"] = NULL;
+                        // }
 
-                        if ($list_demografi->f_level7 == 1) {
-                            $level['label_level7']['label'] = json_decode($surveySetting['f_label_level7'], true);
-                            $level['label_level7']['value'] = Level7::where('f_account_id', $akun->f_account_id)->get();
-                        } else {
-                            $level['label_level7']["label"] = NULL;
-                            $level['label_level7']["value"] = NULL;
-                        }
+                        // if ($list_demografi->f_level7 == 1) {
+                        //     $level['label_level7']['label'] = json_decode($surveySetting['f_label_level7'], true);
+                        //     $level['label_level7']['value'] = Level7::where('f_account_id', $akun->f_account_id)->get();
+                        // } else {
+                        //     $level['label_level7']["label"] = NULL;
+                        //     $level['label_level7']["value"] = NULL;
+                        // }
 
 
                         return view('survey.show', [
@@ -307,7 +304,7 @@ class SurveyController extends Controller
         //     ]);
         // }
 
-        $setting_akun = SurveySetting::where('f_account_id', $data_event->f_corporate_id)->first();
+        $setting_akun = SurveySetting::where('f_account_id', $data_event->f_account_id)->first();
         $id_corp = $data_corp->f_account_id;
 
 
@@ -320,14 +317,14 @@ class SurveyController extends Controller
         $list_demografi = NULL;
         $events = EventClient::where('f_event_id', $request->event_id)->first();
 
-        $akun = AccountClient::where('is_corporate', 1)->where('f_account_id', $data_event->f_corporate_id)->first();
+        $akun = AccountClient::where('is_corporate', 1)->where('f_account_id', $data_event->f_account_id)->first();
 
         
 
         if (optional($setting_akun)->f_demo_view == 2 && $events->f_event_type == 1) {
 
             $from_nip = true;
-            $responden = MasterNip::where('id_account', $events->f_corporate_id)
+            $responden = MasterNip::where('id_account', $events->f_account_id)
                 ->where('nip', $request->nip)
                 ->first();
 
@@ -443,8 +440,8 @@ class SurveyController extends Controller
                 'f_level6' => $input['label_level6'] ?? null,
                 'f_level7' => $input['label_level7'] ?? null,
                 // 'level_work' => $input['level_of_work'] ?? null,
-                'f_corporate_id' => $data_event->f_corporate_id,
-                'f_from_corporate_id' => $data_event->f_corporate_id,
+                'f_account_id' => $data_event->f_account_id,
+                'f_from_corporate_id' => $data_event->f_account_id,
                 'f_length_of_service' => $input['masa_kerja'] ?? null,
                 'f_level_of_work' => $input['level_of_work'] ?? null,
                 'f_region' => $input['region'] ?? null,
@@ -459,7 +456,7 @@ class SurveyController extends Controller
 
             // Cek apakah ambil data dari tabel master_nip
             if (optional($setting_akun)->f_demo_view == 2 && $data_event->f_event_type == 1) {
-                $responden = MasterNip::where('id_account', $data_event->f_corporate_id)
+                $responden = MasterNip::where('id_account', $data_event->f_account_id)
                     ->where('nip', $input['nip'])
                     ->first();
 
@@ -638,7 +635,7 @@ class SurveyController extends Controller
                     'f_survey_created_by' => 'corporate',
                     'f_status_bayar' => 0,
                 'f_region' => $data['region'] ?? null,
-                    'f_corporate_id' => $account->f_account_id,
+                    'f_account_id' => $account->f_account_id,
                     'f_from_corporate_id' => $account->f_account_id,
                     'f_length_of_service' => $data['masa_kerja'] ?? NULL,
                     'f_level_of_work' => $data['level_of_work'] ?? NULL,
@@ -648,9 +645,9 @@ class SurveyController extends Controller
                 ];
 
                 // Ambil settingan survey untuk emastikan jika harus mengamvik dari responden
-                $setting_akun = SurveySetting::where('f_account_id', $events->f_corporate_id)->first();
+                $setting_akun = SurveySetting::where('f_account_id', $events->f_account_id)->first();
                 if (optional($setting_akun)->f_demo_view == 2 && $events->f_event_type == 1) {
-                    $responden = MasterNip::where('id_account', $events->f_corporate_id)
+                    $responden = MasterNip::where('id_account', $events->f_account_id)
                         ->where('nip', $data['nip'])
                         ->first();
 
