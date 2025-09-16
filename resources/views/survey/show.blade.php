@@ -105,8 +105,8 @@
                             @if (isset($demografi['nip']['label'][$language]))
                                 <label class="text-white mb-2 text-lg font-bold"
                                     for="gender">{{ $demografi['nip']['label'][$language] }}</label>
-                                <input type="number" inputmode="numeric" pattern="[0-9]" id="nip" name="nip" value=''
-                                    class="w-full bg-white border px-4 py-2 rounded demografi mb-4" required>
+                                <input type="number" inputmode="numeric" pattern="[0-9]" id="nip" name="nip"
+                                    value='' class="w-full bg-white border px-4 py-2 rounded demografi mb-4" required>
                             @endif
 
                             @if (isset($demografi['nama']['label'][$language]))
@@ -256,37 +256,35 @@
                                         // echo $count_soal;
                                         $total_persentase = $count_soal - ceil($count_soal * (25 / 100));
                                     @endphp
-                                   @foreach ($section as $question)
-    <div class="mb-6 pb-4">
-        <p class="mb-2 text-white font-medium">
-            {{ $question['f_item'] }}
-        </p>
+                                    @foreach ($section as $question)
+                                        <div class="mb-6 pb-4">
+                                            <p class="mb-2 text-white font-medium">
+                                                {{ $question['f_item'] }}
+                                            </p>
 
-        @if ($question['type'] == 1)
-            @php
-                $answers = json_decode($question['f_answer'], true) ?? [];
-            @endphp
+                                            @if ($question['type'] == 1)
+                                                @php
+                                                    $answers = json_decode($question['f_answer'], true) ?? [];
+                                                @endphp
 
-            <div class="space-y-2">
-                @foreach ($answers as $answer)
-                    <label class="flex items-center space-x-2">
-                        <input type="radio"
-                               name="answers[ex{{ $question['f_id'] }}]"
-                               value="{{ $answer['value'] }}"
-                               class="text-blue-600 focus:ring-blue-500">
-                        <span class="text-white">{{ $answer['label'] }}</span>
-                    </label>
-                @endforeach
-            </div>
-
-        @elseif ($question['type'] == 2)
-            <textarea name="answers[ex{{ $question['f_id'] }}]"
-                      rows="3"
-                      class="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200">
+                                                <div class="space-y-2">
+                                                    @foreach ($answers as $answer)
+                                                        <label class="flex items-center space-x-2">
+                                                            <input type="radio"
+                                                                name="answers[ex{{ $question['f_id'] }}]"
+                                                                value="{{ $answer['value'] }}"
+                                                                class="text-blue-600 focus:ring-blue-500">
+                                                            <span class="text-white">{{ $answer['label'] }}</span>
+                                                        </label>
+                                                    @endforeach
+                                                </div>
+                                            @elseif ($question['type'] == 2)
+                                                <textarea name="answers[ex{{ $question['f_id'] }}]" rows="3"
+                                                    class="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200">
             </textarea>
-        @endif
-    </div>
-@endforeach
+                                            @endif
+                                        </div>
+                                    @endforeach
 
                                 </div>
                             @endforeach
@@ -398,7 +396,7 @@
             let currentSection = 0; // Index section aktif
             // Fungsi untuk memperbarui tampilan section
 
-            
+
             $('#mulai').on('click', function() {
 
                 let isValid = true;
@@ -424,50 +422,11 @@
                     return;
                 }
 
-                @if ($events->f_event_type == 1)
-                    // var nip = true;
 
-                    var nip = $('#nip').val();
-                    var id_account = $('#account_id').val();
-
-                    var status_nip = false;
-                    $.ajax({
-                        url: '{{ route('check.nip') }}',
-                        type: 'GET',
-                        data: {
-                            nip: nip,
-                            id_account: id_account
-                        },
-                        success: function(response) {
-
-                            console.log(response);
-                            if (response.available) {
-                                $('#nip-status').text('✅').css('color', 'green');
-                                status_nip = true;
-                                mulaiSurvey(); // fungsi kamu sendiri
-
-                            } else {
-                                Swal.fire({
-                                    title: "NIP tidak terdaftar di database",
-                                    icon: "error",
-                                    confirmButtonColor: "#3085d6",
-                                    confirmButtonText: "OK"
-                                })
-                                return;
-                            }
-                        },
-                        error: function() {
-                            status_nip = false;
-                            $('#nip-status').text('⚠️ Error').css('color', 'orange');
-                        }
-                    });
-
-
-                    @else
                 mulaiSurvey(); // fungsi kamu sendiri
-                @endif ;
 
-               
+
+
 
                 // Jika semua valid
             });
@@ -484,7 +443,7 @@
                 };
 
                 // Append values from input[type=text] and select inside .demografi
-                $('.demografi').each(function () {
+                $('.demografi').each(function() {
                     let name = $(this).attr('name');
                     let value = $(this).val();
 
@@ -520,9 +479,9 @@
                                 confirmButtonColor: "#3085d6",
                                 confirmButtonText: "OK"
                             }).then(() => {
-                                    $('.pengisian').html(
-                                        '<h1 class="text-2xl text-white text-center">Terima Kasih atas partisipasi anda</h1>'
-                                    )
+                                $('.pengisian').html(
+                                    '<h1 class="text-2xl text-white text-center">Terima Kasih atas partisipasi anda</h1>'
+                                )
                             });
                         } else if (!response.survey_valid) {
                             // console.log(response);
@@ -545,11 +504,12 @@
                                 }
                             });
 
-                            if(response['from_nip']){
+                            if (response['from_nip']) {
                                 $(response['data_nip']['label']).each(function(i, v) {
                                     let label = v;
-                                    let value = "<small style='font-weight:normal;'>" + response['data_nip']['value'][i] +
-                                            "</small>";
+                                    let value = "<small style='font-weight:normal;'>" + response['data_nip']
+                                        ['value'][i] +
+                                        "</small>";
                                     if (value) {
                                         result += label + ': \n' + value + '\n';
                                     }
@@ -778,9 +738,9 @@
                                 // var acc_id = $('#account_id').val();
 
                                 // if (acc_id == 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f') {
-                                    $('.pengisian').html(
-                                        '<h1 class="text-2xl text-white text-center">Terima Kasih atas partisipasi anda</h1>'
-                                    )
+                                $('.pengisian').html(
+                                    '<h1 class="text-2xl text-white text-center">Terima Kasih atas partisipasi anda</h1>'
+                                )
                                 // } else {
                                 //     window.location.reload();
 

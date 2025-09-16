@@ -103,11 +103,11 @@
                     class="px-4 py-2 rounded">
                     Appreance
                 </button>
-                <button @click="tab = 'responden'"
+                {{-- <button @click="tab = 'responden'"
                     :class="tab === 'responden' ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-700'"
                     class="px-4 py-2 rounded">
                     Responden
-                </button>
+                </button> --}}
             </div>
 
             <div x-show="tab === 'demografi'">
@@ -115,38 +115,11 @@
 
                     @method('post')
                     @csrf
-
-                    <div class="flex flex-col my-6">
-                        <label class="text-paynes_gray-200 font-normal text-sm">Data demografi</label>
-                        <select
-                            class="select select-bordered border-slate-400 rounded-lg h-10 w-1/2 text-sm px-1 py-1 text-gray-500"
-                            name="f_demo_view">
-                            <option class="text-grey-500" value="">--Pilih--</option>
-                            <option class="text-grey-500" value="1" {{ $demografi_view == 1 ? 'selected' : '' }}>
-                                Berasal dari inputan</option>
-                            <option class="text-grey-500" value="2" {{ $demografi_view == 2 ? 'selected' : '' }}>Ambil
-                                dari responden</option>
-                        </select>
-                        @error('status_survey')
-                            <span class="text-red-500 text-xs">{{ $message }}</span>
-                        @enderror
-
-                        <div class="my-3">
-                            <p>Note : Jika data demografi <span class="font-bold text-red-600">Ambil dari responden</span>
-                                maka pastikan : </p>
-                            <ul class="list-disc ms-3">
-                                <li>Ada data responden yang diupload</li>
-                                <li>Kolom NIP (key) harus diceklis</li>
-                            </ul>
-                        </div>
-                    </div>
                     <table class="w-full border border-collapse">
                         <thead class="">
                             <tr>
                                 <th class="px-4 py-4 border border-slate-300 bg-blue-400 text-slate-50">Desc</th>
                                 <th class="px-4 py-4 border border-slate-300 bg-blue-400 text-slate-50">Demografi Survey
-                                </th>
-                                <th class="px-4 py-4 border border-slate-300 bg-blue-400 text-slate-50">Monitoring Survey
                                 </th>
                                 {{-- <th class="px-4 py-4 border border-slate-300 bg-blue-400 text-slate-50">Buat user</th> --}}
                                 <th class="px-4 py-4 border border-slate-300 bg-blue-400 text-slate-50">Indonesia</th>
@@ -163,9 +136,7 @@
                                 <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
                                         type="checkbox" name="is_aktif_f_nama"
                                         {{ $setting_demografi->f_nama ? 'checked' : '' }}></td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_nama_monitoring"
-                                        {{ optional($setting_monitoring)->f_nama ? 'checked' : '' }}></td>
+                   
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center"></td> --}}
                                 <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
                                         type="text"
@@ -190,9 +161,7 @@
                                         type="checkbox" name="is_aktif_f_email"
                                         {{ $setting_demografi->f_email ? 'checked' : '' }}></td>
 
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_email_monitoring"
-                                        {{ optional($setting_monitoring)->f_email ? 'checked' : '' }}></td>
+                         
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center"></td> --}}
                                 <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
                                         type="text"
@@ -210,43 +179,13 @@
                                         name="label_my_email" value="{{ $label_others['email']['malaysia'] }}">
                                 </td>
                             <tr>
-                            <tr>
-                                <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">NIP
-                                </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_nip"
-                                        {{ $setting_demografi->f_nip ? 'checked' : '' }}></td>
-
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_nip_monitoring"
-                                        {{ optional($setting_monitoring)->f_nip ? 'checked' : '' }}></td>
-                                {{-- <td class="px-2 py-2 border border-slate-300 text-center"></td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
-                                        name="label_id_nip" value="{{ $label_others['nip']['indonesian'] }}">
-                                </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
-                                        name="label_en_nip" value="{{ $label_others['nip']['english'] }}">
-                                </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
-                                        name="label_my_nip" value="{{ $label_others['nip']['malaysia'] }}">
-                                </td>
-                            <tr>
+      
                                 <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Jenis kelamin
                                 </td>
                                 <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
                                         type="checkbox" name="is_aktif_f_gender"
                                         {{ $setting_demografi->f_gender ? 'checked' : '' }}></td>
 
-
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_gender_monitoring"
-                                        {{ optional($setting_monitoring)->f_gender ? 'checked' : '' }}></td>
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center"></td> --}}
                                 <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
                                         type="text"
@@ -270,9 +209,6 @@
                                         type="checkbox" name="is_aktif_f_age"
                                         {{ $setting_demografi->f_age ? 'checked' : '' }}>
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_age_monitoring"
-                                        {{ optional($setting_monitoring)->f_age ? 'checked' : '' }}>
                                 </td>
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center"></td> --}}
                                 <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
@@ -298,9 +234,6 @@
                                         type="checkbox" name="is_aktif_f_masakerja"
                                         {{ $setting_demografi->f_masakerja ? 'checked' : '' }}></td>
 
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_masakerja_monitoring"
-                                        {{ optional($setting_monitoring)->f_masakerja ? 'checked' : '' }}></td>
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center"></td> --}}
                                 <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
                                         type="text"
@@ -326,9 +259,7 @@
                                         {{ $setting_demografi->f_pendidikan ? 'checked' : '' }}></td>
 
 
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_pendidikan_monitoring"
-                                        {{ optional($setting_monitoring)->f_pendidikan ? 'checked' : '' }}></td>
+
 
 
 
@@ -355,9 +286,7 @@
                                         type="checkbox" name="is_aktif_f_region"
                                         {{ $setting_demografi->f_region ? 'checked' : '' }}></td>
 
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_region_monitoring"
-                                        {{ optional($setting_monitoring)->f_region ? 'checked' : '' }}></td>
+                  
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
                                         <input class="text-slate-600" type="checkbox"
                                 name="is_create_user_f_region" {{ $setting_create_user->f_region ? 'checked' : ''  }}>
@@ -387,9 +316,6 @@
                                         type="checkbox" name="is_aktif_f_level_of_work"
                                         {{ $setting_demografi->f_level_of_work ? 'checked' : '' }}></td>
 
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_level_of_work_monitoring"
-                                        {{ optional($setting_monitoring)->f_level_of_work ? 'checked' : '' }}></td>
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
                                         <input class="text-slate-600" type="checkbox"
                                 name="is_create_user_f_level_of_work" {{ $setting_create_user->f_level_of_work ? 'checked' : ''  }}>
@@ -418,10 +344,6 @@
                                         type="checkbox" name="is_aktif_f_level1"
                                         {{ $setting_demografi->f_level1 ? 'checked' : '' }}></td>
 
-
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_level1_monitoring"
-                                        {{ optional($setting_monitoring)->f_level1 ? 'checked' : '' }}></td>
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
                                         <input class="text-slate-600" type="checkbox"
                                 name="is_create_user_f_level1" {{ $setting_create_user->f_level1 ? 'checked' : ''  }}>
@@ -448,10 +370,6 @@
                                 <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
                                         type="checkbox" name="is_aktif_f_level2"
                                         {{ $setting_demografi->f_level2 ? 'checked' : '' }}></td>
-
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_level2_monitoring"
-                                        {{ optional($setting_monitoring)->f_level2 ? 'checked' : '' }}></td>
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
                                         <input class="text-slate-600" type="checkbox"
                                 name="is_create_user_f_level2" {{ $setting_create_user->f_level2 ? 'checked' : ''  }}>
@@ -478,10 +396,6 @@
                                 <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
                                         type="checkbox" name="is_aktif_f_level3"
                                         {{ $setting_demografi->f_level3 ? 'checked' : '' }}></td>
-
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_level3_monitoring"
-                                        {{ optional($setting_monitoring)->f_level3 ? 'checked' : '' }}></td>
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
                                         <input class="text-slate-600" type="checkbox"
                                 name="is_create_user_f_level3" {{ $setting_create_user->f_level3 ? 'checked' : ''  }}>
@@ -508,9 +422,7 @@
                                         type="checkbox" name="is_aktif_f_level4"
                                         {{ $setting_demografi->f_level4 ? 'checked' : '' }}></td>
 
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_level4_monitoring"
-                                        {{ optional($setting_monitoring)->f_level4 ? 'checked' : '' }}></td>
+                        
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
                                         <input class="text-slate-600" type="checkbox"
                                 name="is_create_user_f_level4" {{ $setting_create_user->f_level4 ? 'checked' : ''  }}>
@@ -538,9 +450,7 @@
                                         type="checkbox" name="is_aktif_f_level5"
                                         {{ $setting_demografi->f_level5 ? 'checked' : '' }}></td>
 
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_level5_monitoring"
-                                        {{ optional($setting_monitoring)->f_level5 ? 'checked' : '' }}></td>
+                 
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
                                         <input class="text-slate-600" type="checkbox"
                                 name="is_create_user_f_level5" {{ $setting_create_user->f_level5 ? 'checked' : ''  }}>
@@ -567,9 +477,7 @@
                                 <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
                                         type="checkbox" name="is_aktif_f_level6"
                                         {{ $setting_demografi->f_level6 ? 'checked' : '' }}></td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_level6_monitoring"
-                                        {{ optional($setting_monitoring)->f_level6 ? 'checked' : '' }}></td>
+                   
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
                                         <input class="text-slate-600" type="checkbox"
                                 name="is_create_user_f_level6" {{ $setting_create_user->f_level6 ? 'checked' : ''  }}>
@@ -596,9 +504,7 @@
                                 <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
                                         type="checkbox" name="is_aktif_f_level7"
                                         {{ $setting_demografi->f_level7 ? 'checked' : '' }}></td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_level7_monitoring"
-                                        {{ optional($setting_monitoring)->f_level7 ? 'checked' : '' }}></td>
+              
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
                                         <input class="text-slate-600" type="checkbox"
                                 name="is_create_user_f_level7" {{ $setting_create_user->f_level7 ? 'checked' : ''  }}>
@@ -735,7 +641,7 @@
                     </div>
                 </form>
             </div>
-            <div x-show="tab === 'responden'">
+            {{-- <div x-show="tab === 'responden'">
                 <form method="POST" enctype="multipart/form-data" class="my-6" id="import-form">
                     @csrf
                     @method('POST')
@@ -790,8 +696,6 @@
                                 <th class="px-4 py-2 border border-gray-600">Tanggal Lahir</th>
                                 <th class="px-4 py-2 border border-gray-600">{{ $label_others['nama']['indonesian'] }}
                                 </th>
-                                <th class="px-4 py-2 border border-gray-600">{{ $label_others['nip']['indonesian'] }}
-                                </th>
                                 <th class="px-4 py-2 border border-gray-600">{{ $label_others['gender']['indonesian'] }}
                                 </th>
                                 <th class="px-4 py-2 border border-gray-600">{{ $label_others['age']['indonesian'] }}
@@ -814,7 +718,7 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-700">
-                            @foreach ($responden as $i => $item)
+                            {{-- @foreach ($responden as $i => $item)
                                 <tr class="hover:bg-[#03396c]">
                                     <td class="px-4 py-2 border border-gray-600">{{ $i + 1 }}</td>
                                     <td class="px-4 py-2 border border-gray-600">{{ $item->f_survey_valid ?? '-' }}</td>
@@ -849,16 +753,16 @@
                                                                 <td class="px-4 py-2 border border-gray-600">
                                         {{ $item->relasi_level7->f_position_desc ?? '-' }}</td>
                                 </tr>
-                            @endforeach
+                            @endforeach --}}
                         </tbody>
                     </table>
 
                     <div class="py-3 px-2 bg-white">
-                        {{ $responden->onEachSide(5)->links('vendor.pagination.tailwind') }}
+                        {{-- {{ $responden->onEachSide(5)->links('vendor.pagination.tailwind') }} --}}
                     </div>
                 </div>
 
-            </div>
+            </div> --}}
         </div>
     </div>
 

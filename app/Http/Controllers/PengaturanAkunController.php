@@ -30,8 +30,8 @@ class PengaturanAkunController extends Controller
 
         // Ambil data setting demografi
         $data['setting_demografi'] = DemografiSetting::where('f_account_id', Auth::user()->f_account_id)->first();
-        $data['setting_monitoring'] = ListMonitoring::where('f_account_id', Auth::user()->f_account_id)->first();
-        $data['setting_create_user'] = ListLogin::where('f_account_id', Auth::user()->f_account_id)->first();
+        // $data['setting_monitoring'] = ListMonitoring::where('f_account_id', Auth::user()->f_account_id)->first();
+        // $data['setting_create_user'] = ListLogin::where('f_account_id', Auth::user()->f_account_id)->first();
 
         // Ambil data setting bahasa / label survey
         $surveySetting = SurveySetting::where('f_account_id', Auth::user()->f_account_id)->first();
@@ -57,21 +57,21 @@ class PengaturanAkunController extends Controller
 
 
         $data['account_id'] = Auth::user()->f_account_id;
-        $data['responden'] = MasterNip::with([
-            'relasi_gender',
-            'relasi_umur',
-            'relasi_masa_kerja',
-            'relasi_wilayah',
-            'relasi_jabatan',
-            'relasi_pendidikan',
-            'relasi_level1',
-            'relasi_level2',
-            'relasi_level3',
-            'relasi_level4',
-            'relasi_level5',
-            'relasi_level6',
-            'relasi_level7',
-        ])->where('id_account', Auth::user()->f_account_id)->paginate(10);
+        // $data['responden'] = MasterNip::with([
+        //     'relasi_gender',
+        //     'relasi_umur',
+        //     'relasi_masa_kerja',
+        //     'relasi_wilayah',
+        //     'relasi_jabatan',
+        //     'relasi_pendidikan',
+        //     'relasi_level1',
+        //     'relasi_level2',
+        //     'relasi_level3',
+        //     'relasi_level4',
+        //     'relasi_level5',
+        //     'relasi_level6',
+        //     'relasi_level7',
+        // ])->where('id_account', Auth::user()->f_account_id)->paginate(10);
 
         // echo json_encode($data['responden']);die();
 
@@ -109,13 +109,13 @@ class PengaturanAkunController extends Controller
 
 
 
-        $settingMonitoring = ListMonitoring::where('f_account_id', Auth::user()->f_account_id)->first();
-        $columnsMonitoring = array_keys($settingMonitoring->getAttributes());
-        $updateMonitoring = [];
-        foreach ($columnsMonitoring as $key => $value) {
-            $string = "is_aktif_" . $value."_monitoring";
-            $updateMonitoring[$value] = $request->has($string) ? 1 : 0;
-        }
+        // $settingMonitoring = ListMonitoring::where('f_account_id', Auth::user()->f_account_id)->first();
+        // $columnsMonitoring = array_keys($settingMonitoring->getAttributes());
+        // $updateMonitoring = [];
+        // foreach ($columnsMonitoring as $key => $value) {
+        //     $string = "is_aktif_" . $value."_monitoring";
+        //     $updateMonitoring[$value] = $request->has($string) ? 1 : 0;
+        // }
         // echo json_encode($updateMonitoring);die();
 
 
@@ -123,7 +123,7 @@ class PengaturanAkunController extends Controller
         unset($updateMonitoring['id']); // hindari update ke kolom pencarian
 
         // echo json_encode($updateMonitoring);die();
-        ListMonitoring::where('f_account_id',  $request->input('is_aktif_f_account_id'))->update($updateMonitoring);
+        // ListMonitoring::where('f_account_id',  $request->input('is_aktif_f_account_id'))->update($updateMonitoring);
 
         // $settingDemografi->where('f_account_id', $updateDemografi['f_account_id'])->update($updateDemografi);
         // ListMonitoring::updateOrCreate(

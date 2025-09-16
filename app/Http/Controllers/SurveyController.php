@@ -16,6 +16,7 @@ use App\Models\Level7;
 use App\Models\Region;
 use App\Models\Service;
 use App\Models\Setting;
+use App\Models\Variabel;
 use App\Models\Wilayah;
 use App\Models\ListDemo;
 use App\Models\MasaKerja;
@@ -57,10 +58,10 @@ class SurveyController extends Controller
 
         if ($check_event_token) {
             // Gabungkan tanggal & jam mulai dan selesai ke objek Carbon
-           $start = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $check_event_token->f_event_start);
-    $end   = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $check_event_token->f_event_end);
+            $start = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $check_event_token->f_event_start);
+            $end = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $check_event_token->f_event_end);
 
-    
+
 
 
 
@@ -279,15 +280,18 @@ class SurveyController extends Controller
     {
         $input = $request->all();
 
-        $data = TrnSurvey::where('f_email', $input['email'])->first();
+        $data = TrnSurvey::where('f_survey_email', $input['email'])->first();
 
-        // if (!$data) {
-        //     return response()->json([
-        //         'status' => 200,
-        //         'survey_valid' => false,
-        //         'msg' => '',
-        //     ]);
-        // }
+
+
+
+        if ($data) {
+            return response()->json([
+                'status' => 200,
+                'survey_valid' => false,
+                'msg' => '',
+            ]);
+        }
 
         $data_corp = DB::table('t_account')
             ->select('*')
@@ -310,16 +314,15 @@ class SurveyController extends Controller
 
 
         // dd($data);
-
         $master_nip = NULL;
         $from_nip = false;
 
         $list_demografi = NULL;
         $events = EventClient::where('f_event_id', $request->event_id)->first();
 
-        $akun = AccountClient::where('is_corporate', 1)->where('f_account_id', $data_event->f_account_id)->first();
+        $akun = AccountClient::where('f_account_id', $data_event->f_account_id)->first();
 
-        
+
 
         if (optional($setting_akun)->f_demo_view == 2 && $events->f_event_type == 1) {
 
@@ -335,7 +338,7 @@ class SurveyController extends Controller
             $demografi = array();
             $label_others = json_decode($setting_akun->f_label_others, true);
 
-            if ($responden->f_name ) {
+            if ($responden->f_name) {
                 $demografi["label"][] = $label_others['nama']['indonesian'];
                 $demografi["value"][] = $responden->f_name;
             }
@@ -350,7 +353,7 @@ class SurveyController extends Controller
                 $demografi['label'][] = $label_others['age']['indonesian'];
 
                 $demografi['value'][] = Usia::where('f_id', $responden->f_age)->first()->f_age_desc;
-            } 
+            }
 
             if ($responden->f_length_of_service) {
                 $demografi['label'][] = $label_others['mk']['indonesian'];
@@ -368,7 +371,7 @@ class SurveyController extends Controller
             }
 
 
-            if ( $responden->f_pendidikan) {
+            if ($responden->f_pendidikan) {
                 $demografi['label'][] = $label_others['education']['indonesian'];
                 $demografi['value'][] = Pendidikan::where('f_id', $responden->f_pendidikan)->first()->f_name;
             }
@@ -406,8 +409,6 @@ class SurveyController extends Controller
             // echo json_encode($list_demografi)."<br><br>";
             // echo json_encode($demografi)."<br><br>";die();
 
-
-
             $master_nip = $demografi;
 
         }
@@ -425,7 +426,6 @@ class SurveyController extends Controller
         // Jika survey sudah valid
         if ($data->f_survey_valid === "yes") {
             $data_update = [
-                'f_account_id' => 0,
                 'f_event_id' => $input['event_id'] ?? 0,
                 'f_survey_username' => $input['name'] ?? "",
                 // 'f_email' => $input['email'],
@@ -577,195 +577,135 @@ class SurveyController extends Controller
         }
         // }
     }
+
     public function saveSurveyCorporate(Request $request)
     {
 
-        $data = $request->all();
-        if(!isset($data['name'])){
-            $data['name'] = '';
-        }
-        // echo json_encode($data);die();
-        $account = DB::table('t_account')->where(DB::raw('sha1(f_account_id)'), $data['account_id'])->first();
-        $events = EventClient::where('f_event_id', $data['event_id'])->first();
+        $distribusi_jawaban   = [];
+$total_jawaban_semua  = 0;
+$total_score          = 0.0;
+$jumlah_skala         = 0;
+
+$jawaban_skala = []; // pertanyaan_{id} => float
+$jawaban_teks  = []; // pertanyaan_{id} => string
+
+$list_pernyataan = ItemPernyataanModel::get();
+$answers = $request->input('answers', []);
+
+foreach ($list_pernyataan as $it) {
+    $id    = $it->f_id;
+    $type  = (int) ($it->type ?? 1);
+    $kode  = $it->f_kode ?? null;
+    $vari  = $it->f_variabel_id ?? null;
+
+    $key   = 'ex' . $id;
+    $raw   = $answers[$key] ?? null;
+
+    if ($type === 1) {
+        // numeric/scale
+        $nilai = $raw;
+        $jawaban_skala['pertanyaan_' . $id] = $nilai;
+        $total_score += $nilai;
+        $jumlah_skala++;
+    } elseif ($type === 2) {
+        // text/open-ended
+        // opsional: sanitasi ringan
+        $text = trim((string) $raw);
+        $text = strip_tags($text); // buang HTML
+        $jawaban_teks['pertanyaan_' . $id] = $text;
+    } else {
+        // tipe lain (kalau ada)
+        $jawaban_teks['pertanyaan_' . $id] = is_scalar($raw) ? (string)$raw : json_encode($raw);
+    }
+
+    $distribusi_jawaban[] = [
+        'id'       => $id,
+        'code'     => $kode,
+        'variabel' => $vari,
+        'jenis'    => $type,
+        'nilai'    => $type === 1 ? ($jawaban_skala['pertanyaan_'.$id] ?? null)
+                                  : ($jawaban_teks['pertanyaan_'.$id] ?? null),
+    ];
+
+    $total_jawaban_semua++;
+}
+
+$rata2_skala = $jumlah_skala > 0 ? round($total_score / $jumlah_skala, 2) : 0.0;
 
 
-        if (!$account) {
-            return response()->json(['status' => 404, 'msg' => 'Account not found'], 404);
-        }
+$distribusi_by_variabel = [];
+$variabels = Variabel::select('f_id', 'f_variabel_name')->get()->keyBy('f_id');
 
-        $existing = DB::table('trn_survey_empex')->where('f_email', $data['email'])->first();
+foreach ($distribusi_jawaban as $jawaban) {
+    $variabelId = $jawaban['variabel'];
+    $nilai      = $jawaban['nilai'] ?? 0;
 
-        if ($existing) {
+    if (!isset($distribusi_by_variabel[$variabelId])) {
+        $variabelName = $variabels[$variabelId]->f_variabel_name ?? 'Unknown';
 
-            // Cek tipe report
+        $distribusi_by_variabel[$variabelId] = [
+            'id'             => $variabelId,
+            'variabel'       => $variabelName,
+            'total_nilai'    => 0,
+            'jumlah_jawaban' => 0,
+        ];
+    }
 
-            $report_type = 10;
-            if ($existing->f_report_type < $events->f_report_type) {
-                $report_type = $events->f_report_type;
-            }
+    $distribusi_by_variabel[$variabelId]['total_nilai']    += (is_numeric($nilai) ? (float)$nilai : 0);
+    $distribusi_by_variabel[$variabelId]['jumlah_jawaban'] += 1;
+}
 
-
-            if ($existing->f_survey_valid == "yes") {
-
-                // Kondisi normal ambil dari inputan
-                $update_survey = [
-                    'f_account_id' => 0,
-                    'f_event_id' => $data['event_id'] ?? 0,
-                    'f_survey_username' => $data['name'] ?? "",
-                    'f_email' => $data['email'],
-                    'f_age' => $data['age'] ?? NULL,
-                    'f_gender' => $data['gender'] ?? NULL,
-                    'f_report_status' => $report_type,
-                    'f_report_type' => $report_type,
-                    // 'f_survey_password' => sha1($data['email']) ?? NULL,
-                    // 'f_survey' => json_encode($answer, JSON_NUMERIC_CHECK),
-                    // 'f_survey_valid' => "yes",
-                    'f_pendidikan_account' => $data['pendidikan'] ?? NULL,
-                    'f_level1' => $data['label_level1'] ?? NULL,
-                    'f_level2' => $data['label_level2'] ?? NULL,
-                    'f_level3' => $data['label_level3'] ?? NULL,
-                    'f_level4' => $data['label_level4'] ?? NULL,
-                    'f_level5' => $data['label_level5'] ?? NULL,
-                    'level_work' => $data['level_of_work'] ?? NULL,
-                    'negara' => "Indonesia",
-                    'f_bahasa' => "id-ID",
-                    'f_report' => 1,
-                    'status_mail' => NULL,
-                    'created_by' => 1,
-                    'f_survey_created_by' => 'corporate',
-                    'f_status_bayar' => 0,
-                'f_region' => $data['region'] ?? null,
-                    'f_account_id' => $account->f_account_id,
-                    'f_from_corporate_id' => $account->f_account_id,
-                    'f_length_of_service' => $data['masa_kerja'] ?? NULL,
-                    'f_level_of_work' => $data['level_of_work'] ?? NULL,
-                    'f_survey_created_on' => now(),
-                    'f_survey_updated_on' => now(),
-                    'f_nip' => $data['nip'] ?? NULL
-                ];
-
-                // Ambil settingan survey untuk emastikan jika harus mengamvik dari responden
-                $setting_akun = SurveySetting::where('f_account_id', $events->f_account_id)->first();
-                if (optional($setting_akun)->f_demo_view == 2 && $events->f_event_type == 1) {
-                    $responden = MasterNip::where('id_account', $events->f_account_id)
-                        ->where('nip', $data['nip'])
-                        ->first();
-
-                    if ($responden) {
-
-                    $update_survey['f_survey_username']    = $responden->f_name ?? $update_survey['f_survey_username'];
-                        // $update_survey['f_email']          = $responden->f_email ?? $update_survey['f_email'];
-                        $update_survey['f_age']                = $responden->f_age ?? $update_survey['f_age'];
-                        $update_survey['f_gender']             = $responden->f_gender ?? $update_survey['f_gender'];
-                        $update_survey['f_pendidikan_account']         = $responden->f_pendidikan ?? $update_survey['f_pendidikan_account'];
-                        $update_survey['f_level1']             = $responden->f_level1 ?? $update_survey['f_level1'];
-                        $update_survey['f_level2']             = $responden->f_level2 ?? $update_survey['f_level2'];
-                        $update_survey['f_level3']             = $responden->f_level3 ?? $update_survey['f_level3'];
-                        $update_survey['f_level4']             = $responden->f_level4 ?? $update_survey['f_level4'];
-                        $update_survey['f_level5']             = $responden->f_level5 ?? $update_survey['f_level5'];
-                        $update_survey['f_level_of_work']      = $responden->f_level_of_work ?? $update_survey['f_level_of_work'];
-                        $update_survey['level_work']           = $responden->f_level_of_work ?? $update_survey['level_work'];
-                        $update_survey['f_length_of_service']  = $responden->f_length_of_service ?? $update_survey['f_length_of_service'];
-                        $update_survey['f_region']             = $responden->f_region ?? $update_survey['f_region'];
-                        $update_survey['f_nip']                = $responden->nip ?? $update_survey['f_nip'];
+// optional: hitung rata-rata per variabel
+foreach ($distribusi_by_variabel as &$row) {
+    $row['rata_rata'] = $row['jumlah_jawaban'] > 0
+        ? round($row['total_nilai'] / $row['jumlah_jawaban'], 2)
+        : 0;
+}
 
 
-                        // Update data responden
-                        $responden->f_survey_valid = "yes";
-                        $responden->f_survey_date = now();
-                        $responden->save();
-                    }
-                }
+  $bodySurvey = json_encode(['distribusi_jawaban' => $distribusi_jawaban, 'jawaban_by_variabel' => $distribusi_by_variabel]);
 
 
-                // Update data nya
-                DB::table('trn_survey_empex')->where('f_id', $existing->f_id)->update($update_survey);
-                return response()->json([
-                    'status' => "success",
-                    'msg' => 'Email telah digunakan, email otomatis ter-link dengan perusahaan Anda'
-                ]);
+//   Event
 
-            }
+$event = EventClient::where('f_event_id',$request->event_id)->first();
 
-        }
-
-        // JIKA STATUS SURVEY VALID == NO //
-
-        // Perhitungan dimensi dan jawaban
-        $answer = [
-            'soal_semua' => 0,
-            'soal_perkategori' => [],
-            'soal_perdimensi' => [],
-            'jawab' => [],
-            'total_kategori' => [],
-            'total_dimensi' => [],
-            'total__kategori_dimensi' => [],
+        $insert = [
+            'f_account_id' => $event->f_account_id,
+            'f_event_id' => $event->f_event_id,
+            'f_survey_password'=> sha1($request->email . Str::random(10)),
+            'f_survey_username' => $request->name,
+            'f_survey_email' => $request->email,
+            'f_survey_telp' => $request->telp,
+            'f_gender' => $request->gender,
+            'f_age' => $request->age,
+            'f_length_of_service' => $request->masa_kerja,
+            'f_region' => $request->region,
+            'f_survey' => $bodySurvey,
+            'f_level_of_work' => $request->level_of_work,
+            'f_pendidikan' => $request->pendidikan,
+            'f_level1' => $request->level1,
+            'f_level2' => $request->level2,
+            'f_level3' => $request->level3,
+            'f_level4' => $request->level4,
+            'f_level5' => $request->level5,
+            'f_level6' => $request->level6,
+            'f_level7' => $request->level7,
+            'f_survey_created_on' => now(),
+            'f_survey_created_by' => auth()->id() ?? null,
+            'f_ip_address' => $request->ip(),
         ];
 
-        $dimensiData = DB::table('t_dimensi')->get();
-        $comboDimensi = $dimensiData->pluck('f_dimensi_name', 'f_id')->toArray();
-
-        $pertanyaan = DB::table('t_item_pernyataan')->get();
-        foreach ($pertanyaan as $q) {
-            $id = $q->f_id;
-            if (isset($data['answers']["ex$id"])) {
-                $nilai = round($data['answers']["ex$id"], 2);
-                $kat = $q->f_variabel_id;
-                $dim = $q->f_dimensi_id;
-
-                $answer['jawab'][$id] = $nilai;
-                $answer['total_kategori'][$kat] = ($answer['total_kategori'][$kat] ?? 0) + $nilai;
-                $answer['total_dimensi'][$dim] = ($answer['total_dimensi'][$dim] ?? 0) + $nilai;
-                $answer['total__kategori_dimensi'][$kat][$dim] = ($answer['total__kategori_dimensi'][$kat][$dim] ?? 0) + $nilai;
-                $answer['soal_semua']++;
-                $answer['soal_perkategori'][$kat] = ($answer['soal_perkategori'][$kat] ?? 0) + 1;
-                $answer['soal_perdimensi'][$dim] = ($answer['soal_perdimensi'][$dim] ?? 0) + 1;
-            }
-        }
-
-        $rataDimensi = [];
-        foreach ($answer['total_dimensi'] as $k => $v) {
-            $total = $answer['soal_perdimensi'][$k];
-            $avg = round($v / $total, 2);
-            $answer['rata_dimensi'][$k] = $avg;
-            $rataDimensi[] = ['id' => $k, 'nama' => $comboDimensi[$k], 'total' => $avg];
-        }
-
-        usort($rataDimensi, fn($a, $b) => $b['total'] <=> $a['total']);
-        $answer['topten'] = array_slice($rataDimensi, 0, 10);
-
-        $job = dispatch(new ProcessCorporateSurvey($data, $account, $answer));
-
-        // Simpan ke session
-        session([
-            'job_id' => $job?->job->uuid ?? uniqid('job_'), // fallback jika tidak pakai queue driver selain database/redis
-            'insert_date' => Carbon::now()->format('Y-m-d'),
-        ]);
+        $survey = TrnSurvey::create($insert);
 
 
-
-
-        // $msg = $existing->f_survey_valid = "no"  = "Jawaban Anda masuk dalam antrian. Email sebelumnya sudah pernah terdaftar di survey, dengan status pengisian no. Akan dilakukan update data.";
-
-        // return response()->json([
-        //     'status' => 'success',
-        //     'msg' => 'Jawaban Anda masuk dalam antrian, Survey telah selesai. Laporan TalentDNA akan dikirimkan ke email Anda dalam kurun waktu maksimal 3-5 jam ke depan'
-        // ]);
-
-        // Cek apakah status survey valid adalah 'no'
-        if ($existing && $existing->f_survey_valid === 'no') {
-            $msg = "Jawaban Anda telah masuk dalam antrian. Email yang Anda masukkan sebelumnya sudah terdaftar di survei dengan status 'belum assesment'. Data Anda akan segera diperbarui.";
-        } else {
-            $msg = "Survei telah selesai. Laporan TalentDNA Anda akan dikirimkan ke email dalam waktu 3-5 jam ke depan.";
-        }
-
-        // Mengembalikan response JSON
-        return response()->json([
-            'status' => 'success',
-            'msg' => $msg // Mengirimkan pesan yang sesuai
-        ]);
+                    return response()->json([
+                'status' => 'success',
+                'msg' => 'Survey berhasil disubmit'
+            ]);
 
     }
+
 
     public function submitSurveyManual($data)
     {
