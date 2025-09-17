@@ -197,7 +197,7 @@ class PengaturanAkunController extends Controller
             'f_label_level7' => json_encode($label_level7),
         ];
         
-        $updatedSurveySetting['f_demo_view'] = $request->input('f_demo_view');
+        $updatedSurveySetting['f_demo_view'] = $request->input('f_demo_view') ?? 1;
         $settingSurvey->update($updatedSurveySetting);
 
         return redirect()->back()->with('success', 'Pengaturan berhasil disimpan!')->with('tab', 'demografi');

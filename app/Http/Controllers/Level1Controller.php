@@ -35,7 +35,7 @@ class Level1Controller extends Controller
 
         $data = Level1::create([
             'f_position_desc' => $request->input('f_position_desc'),
-            'f_token' => $request->input('f_token') ?? 0,
+            // 'f_token' => $request->input('f_token') ?? 0,
             'f_account_id' => Auth::user()->f_account_id,
         ]);
 
@@ -68,7 +68,7 @@ class Level1Controller extends Controller
 
         if ($data) {
             $data->f_position_desc = $validatedData['f_position_desc'];
-            $data->f_token = $request->input('f_token') ?? 0;
+            // $data->f_token = $request->input('f_token') ?? 0;
             $data->save();
 
             return redirect()->back()->with('success', 'Data berhasil diperbarui');

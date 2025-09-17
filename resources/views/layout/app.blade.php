@@ -1,36 +1,41 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>Talent DNA - Corporate</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+    <title>Talent DNA - Corporate</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
 
-            <!-- Favicon-->
+    <!-- Favicon-->
     <link rel="shortcut icon" href="https://talentdna.me/tdna/assets/images/fav_talent_dna.png" type="image/x-icon">
     <link rel="icon" type="image/*" href="https://talentdna.me/tdna/assets/images/fav_talent_dna.png">
-    <link rel="apple-touch-icon" type="image/x-icon" href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
+    <link rel="apple-touch-icon" type="image/x-icon"
+        href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72"
+        href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114"
+        href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
+    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144"
+        href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
     <meta property="og:image" content="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
     <meta property="twitter:image" content="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
 
 
 
-        {{-- Sweetalert --}}
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- Sweetalert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-            {{-- Jquery --}}
+    {{-- Jquery --}}
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-    crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
 
 
     {{-- Datatables --}}
@@ -43,9 +48,9 @@
 
 
 
-        <!-- Styles / Scripts -->
+    <!-- Styles / Scripts -->
 
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 
 </head>
@@ -53,6 +58,8 @@
 
 
 <body class="h-screen overflow-hidden bg-gradient-to-l from-[#050C27] to-[#01215A] text-white">
+{{-- <body class="h-screen overflow-hidden"> --}}
+
 
     {{-- <x-navbar /> --}}
 
@@ -74,87 +81,93 @@
 
         /* Tabel biar tetap tampil baik */
         .datatable-table {
-          /* all: unset; */
-          width: 100%;
-          /* border-collapse: collapse; */
+            /* all: unset; */
+            width: 100%;
+            /* border-collapse: collapse; */
         }
 
         .datatable-table th {
-    background-color: transparent !important;
-    background: transparent !important;
-}
-.datatable-wrapper thead th {
-    background-color: transparent !important;
-    background: transparent !important;
-}
-th {
-    background-color: transparent !important;
-}
+            background-color: transparent !important;
+            background: transparent !important;
+        }
+
+        .datatable-wrapper thead th {
+            background-color: transparent !important;
+            background: transparent !important;
+        }
+
+        th {
+            background-color: transparent !important;
+        }
+
         .datatable-table td {
-        color: white;
-          padding: 0.75rem 1rem;
-          text-align: left;
+            color: white;
+            padding: 0.75rem 1rem;
+            text-align: left;
         }
 
         /* Tambahkan pagination custom jika diperlukan */
-      </style>
+    </style>
 
 
-        <style>
-            /* Teks di seluruh tabel */
-            table.dataTable,
-            table.dataTable thead th,
-            table.dataTable tbody td {
-                color: white !important;
-                /* Tailwind gray-800 */
-            }
+    <style>
+        /* Teks di seluruh tabel */
+        table.dataTable,
+        table.dataTable thead th,
+        table.dataTable tbody td {
+            color: white !important;
+            /* Tailwind gray-800 */
+        }
 
 
-            /* Pagination tombol */
-            .dataTables_wrapper .dataTables_paginate .paginate_button {
-                color: white !important;
-                background-color: transparent !important;
-                border: 1px solid #4b5563 !important;
-                /* gray-600 */
-                margin: 2px;
-            }
+        /* Pagination tombol */
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            color: white !important;
+            background-color: transparent !important;
+            border: 1px solid #4b5563 !important;
+            /* gray-600 */
+            margin: 2px;
+        }
 
-            /* Tombol pagination saat hover */
-            .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-                background-color: #4b5563 !important;
-                color: white !important;
-            }
+        /* Tombol pagination saat hover */
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background-color: #4b5563 !important;
+            color: white !important;
+        }
 
-            /* Tombol pagination aktif */
-            .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-                background-color: #2563eb !important;
-                /* blue-600 */
-                color: white !important;
-                border: none;
-            }
+        /* Tombol pagination aktif */
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background-color: #2563eb !important;
+            /* blue-600 */
+            color: white !important;
+            border: none;
+        }
 
-            /* Info teks di bawah */
-            .dataTables_wrapper .dataTables_info {
-                color: white !important;
-            }
+        /* Info teks di bawah */
+        .dataTables_wrapper .dataTables_info {
+            color: white !important;
+        }
 
-            /* Dropdown jumlah entri dan search input */
-            .dataTables_wrapper .dataTables_length select,
-            .dataTables_wrapper .dataTables_filter input {
-                color: white !important;
-                border: 1px solid #4b5563 !important;
-            }
+        /* Dropdown jumlah entri dan search input */
+        .dataTables_wrapper .dataTables_length select,
+        .dataTables_wrapper .dataTables_filter input {
+            color: white !important;
+            border: 1px solid #4b5563 !important;
+        }
 
-            /* Label di samping select dan input */
-            .dataTables_wrapper .dataTables_length label,
-            .dataTables_wrapper .dataTables_filter label {
-                color: white !important;
-            }
-        </style>
+        /* Label di samping select dan input */
+        .dataTables_wrapper .dataTables_length label,
+        .dataTables_wrapper .dataTables_filter label {
+            color: white !important;
+        }
+    </style>
 
-        <style>
-.dataTables_wrapper .dataTables_length select, .dataTables_wrapper .dataTables_filter input { color : #3F51B5 !important}
-</style>
+    <style>
+        .dataTables_wrapper .dataTables_length select,
+        .dataTables_wrapper .dataTables_filter input {
+            color: #3F51B5 !important
+        }
+    </style>
 
 
     <div class="flex h-screen pb-10">
@@ -162,10 +175,10 @@ th {
 
         <main class="flex-1 overflow-auto ">
 
-        @include('layouts.navigation')
-        <div class="p-6">
-            @yield('content')
-        </div>
+            @include('layouts.navigation')
+            <div class="p-6">
+                @yield('content')
+            </div>
         </main>
     </div>
 
@@ -183,4 +196,5 @@ th {
     </script>
 
 </body>
+
 </html>

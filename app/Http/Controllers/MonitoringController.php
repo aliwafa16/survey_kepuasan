@@ -2,19 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Usia;
 use App\Models\Level1;
 use App\Models\Level2;
 use App\Models\Level3;
+use App\Models\Level4;
+use App\Models\Level5;
 use App\Models\Setting;
+use App\Models\Wilayah;
 use App\Models\ListDemo;
 use App\Models\LevelWork;
+use App\Models\MasaKerja;
 use App\Models\TrnSurvey;
 use App\Models\EventClient;
+use App\Models\JenisKelamin;
 use Illuminate\Http\Request;
+use App\Models\AccountClient;
 use App\Models\SurveySetting;
 use App\Models\ListMonitoring;
+use App\Models\TingkatPekerjaan;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
+use App\Models\ItemPernyataanModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -23,13 +32,240 @@ class MonitoringController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($kode)
     {
         // echo Auth::user()->f_account_id;die();
 
-        // $surveyUsers = Level1::where('f_account_id', Auth::user()->f_account_id)->get();
+        $event = EventClient::where('f_event_kode', $kode)->first();
 
-        return view('monitoring.index', compact('surveyUsers'));
+
+        $req = request(); // atau injeksikan di method controller
+
+$q = TrnSurvey::query()
+    ->where('f_event_id', $event->f_event_id);
+
+// ====== FILTER DEMOGRAFI (single select) ======
+$q->when($req->filled('gender'),        fn($x) => $x->where('f_gender',           $req->input('gender')));
+$q->when($req->filled('age'),           fn($x) => $x->where('f_age',              $req->input('age')));
+$q->when($req->filled('masa_kerja'),    fn($x) => $x->where('f_length_of_service',$req->input('masa_kerja')));
+$q->when($req->filled('region'),        fn($x) => $x->where('f_region',           $req->input('region')));
+$q->when($req->filled('level_of_work'), fn($x) => $x->where('f_level_of_work',    $req->input('level_of_work')));
+$q->when($req->filled('pendidikan'),    fn($x) => $x->where('f_pendidikan',       $req->input('pendidikan')));
+
+// ====== FILTER LEVEL HIRARKI (jika ada field dinamis di form) ======
+// Misal di form ada: level1, level2, ... level7 (single select semua)
+foreach (range(1,7) as $i) {
+    $param = "level{$i}";
+    $col   = "f_level{$i}";
+    $q->when($req->filled($param), fn($x) => $x->where($col, $req->input($param)));
+}
+
+// ====== RANGE TANGGAL RESPON ======
+$q->when($req->filled('date_start'), fn($x) => $x->whereDate('f_survey_created_on', '>=', $req->date('date_start')));
+$q->when($req->filled('date_end'),   fn($x) => $x->whereDate('f_survey_created_on', '<=', $req->date('date_end')));
+
+// ====== KEYWORD (nama/email/IP) ======
+$q->when($req->filled('q'), function ($x) use ($req) {
+    $kw = $req->input('q');
+    $x->where(function ($w) use ($kw) {
+        $w->where('f_survey_username', 'like', "%{$kw}%")
+          ->orWhere('f_survey_email',   'like', "%{$kw}%")
+          ->orWhere('f_ip_address',     'like', "%{$kw}%");
+    });
+});
+
+// ====== EKSEKUSI QUERY ======
+$trnSurvey = $q->get();
+
+
+        $itemPertanyaan = ItemPernyataanModel::all();
+
+        $chartData = [];
+        foreach (['Q2', 'Q3', 'Q4', 'Q5', 'Q6'] as $kode) {
+            if ($data = $this->buildChartData($kode, $itemPertanyaan, $trnSurvey)) {
+                $chartData[] = $data;
+            }
+        }
+
+        // 1. Ambil pertanyaan open-ended (type=2)
+        $openQuestions = $itemPertanyaan->where('type', 2);
+
+        // 2. Kelompokkan jawaban responden per kode (Q7..Q12)
+        $answersByCode = [];
+        foreach ($trnSurvey as $row) {
+            $payload = is_string($row->f_survey) ? json_decode($row->f_survey, true) : $row->f_survey;
+            if (!is_array($payload))
+                continue;
+
+            foreach ($payload['distribusi_jawaban'] ?? [] as $ans) {
+                if ((int) ($ans['jenis'] ?? 0) !== 2)
+                    continue; // hanya type=2
+                $code = $ans['code'] ?? null;
+                $answer = trim((string) ($ans['nilai'] ?? ''));
+
+                if ($code && $answer !== '') {
+                    $answersByCode[$code][] = [
+                        'user' => $row->f_survey_username ?? '-',
+                        'email' => $row->f_survey_email ?? '-',
+                        'answer' => $answer,
+                    ];
+                }
+            }
+        }
+        $akun = AccountClient::where('f_account_id', $event->f_account_id)->first();
+
+
+
+        $list_demografi = ListDemo::where('f_account_id', $akun->f_account_id)->first();
+
+        $surveySetting = SurveySetting::where('f_account_id', $akun->f_account_id)->first();
+        $setting_profile = Setting::where('id_corporate', $akun->f_account_id)->first();
+        $demografi = array();
+        $label_others = json_decode($surveySetting->f_label_others, true);
+
+        if ($list_demografi->f_nama == 1) {
+            $demografi['nama']["label"] = $label_others['nama'];
+        } else {
+            $demografi['nama']["label"] = NULL;
+            $demografi['nama']["value"] = NULL;
+        }
+
+        if ($list_demografi->f_email == 1) {
+            $demografi['email']["label"] = $label_others['email'];
+
+        } else {
+            $demografi['email']["label"] = NULL;
+            $demografi['email']["value"] = NULL;
+
+        }
+
+        if ($list_demografi->f_nip == 1) {
+            $demografi['nip']["label"] = $label_others['nip'];
+        } else {
+            $demografi['nip']["label"] = NULL;
+            $demografi['nip']["value"] = NULL;
+        }
+
+
+        if ($list_demografi->f_gender == 1) {
+            $demografi['gender']["label"] = $label_others['gender'];
+            $demografi['gender']["value"] = JenisKelamin::where('f_account_id', $akun->f_account_id)->get();
+        } else {
+            $demografi['gender']["label"] = NULL;
+            $demografi['gender']["value"] = NULL;
+        }
+
+        if ($list_demografi->f_age == 1) {
+            $demografi['age']['label'] = $label_others['age'];
+
+            $demografi['age']['value'] = Usia::where('f_account_id', $akun->f_account_id)->get();
+        } else {
+
+            $demografi['age']["label"] = NULL;
+            $demografi['age']["value"] = NULL;
+        }
+
+        if ($list_demografi->f_masakerja == 1) {
+            $demografi['masa_kerja']['label'] = $label_others['mk'];
+            $demografi['masa_kerja']['value'] = MasaKerja::where('f_account_id', $akun->f_account_id)->get();
+        } else {
+            $demografi['masa_kerja']["label"] = NULL;
+            $demografi['masa_kerja']["value"] = NULL;
+        }
+
+        if ($list_demografi->f_region == 1) {
+            $demografi['region']['label'] = $label_others['region'];
+            $demografi['region']['value'] = Wilayah::where('f_account_id', $akun->f_account_id)->get();
+        } else {
+            $demografi['region']["label"] = NULL;
+            $demografi['region']["value"] = NULL;
+        }
+
+        if ($list_demografi->f_level_of_work == 1) {
+            $demografi['level_of_work']['label'] = $label_others['work'];
+            $demografi['level_of_work']['value'] = TingkatPekerjaan::where('f_account_id', $akun->f_account_id)->get();
+        } else {
+            $demografi['level_of_work']["label"] = NULL;
+            $demografi['level_of_work']["value"] = NULL;
+        }
+
+
+        // if ($list_demografi->f_pendidikan == 1) {
+        //     $demografi['pendidikan']['label'] = $label_others['education'];
+        //     $demografi['pendidikan']['value'] = Pendidikan::where('f_account_id', $akun->f_account_id)->where('f_aktif', 1)->get();
+        // } else {
+        //     $demografi['pendidikan']["label"] = NULL;
+        //     $demografi['pendidikan']["value"] = NULL;
+        // }
+
+        if ($list_demografi->f_level1 == 1) {
+            $level['label_level1']['label'] = json_decode($surveySetting['f_label_level1'], true);
+            $level['label_level1']['level'] = 1;
+            $level['label_level1']['value'] = Level1::where('f_account_id', $akun->f_account_id)->get();
+        } else {
+            $level['label_level1']["label"] = NULL;
+            $level['label_level1']['level'] = NULL;
+            $level['label_level1']["value"] = NULL;
+        }
+
+        if ($list_demografi->f_level2 == 1) {
+            $level['label_level2']['label'] = json_decode($surveySetting['f_label_level2'], true);
+            $level['label_level2']['level'] = 2;
+            $level['label_level2']['value'] = Level2::where('f_account_id', $akun->f_account_id)->get();
+        } else {
+            $level['label_level2']["label"] = NULL;
+            $level['label_level2']['level'] = NULL;
+            $level['label_level2']["value"] = NULL;
+        }
+
+
+        if ($list_demografi->f_level3 == 1) {
+            $level['label_level3']['label'] = json_decode($surveySetting['f_label_level3'], true);
+            $level['label_level3']['level'] = 3;
+            $level['label_level3']['value'] = Level3::where('f_account_id', $akun->f_account_id)->get();
+        } else {
+            $level['label_level3']["label"] = NULL;
+            $level['label_level3']['level'] = NULL;
+            $level['label_level3']["value"] = NULL;
+        }
+
+
+        if ($list_demografi->f_level4 == 1) {
+            $level['label_level4']['label'] = json_decode($surveySetting['f_label_level4'], true);
+            $level['label_level4']['value'] = Level4::where('f_account_id', $akun->f_account_id)->get();
+        } else {
+            $level['label_level4']["label"] = NULL;
+            $level['label_level4']["value"] = NULL;
+        }
+
+        if ($list_demografi->f_level5 == 1) {
+            $level['label_level5']['label'] = json_decode($surveySetting['f_label_level5'], true);
+            $level['label_level5']['value'] = Level5::where('f_account_id', $akun->f_account_id)->get();
+        } else {
+            $level['label_level5']["label"] = NULL;
+            $level['label_level5']["value"] = NULL;
+        }
+
+        // if ($list_demografi->f_level6 == 1) {
+        //     $level['label_level6']['label'] = json_decode($surveySetting['f_label_level6'], true);
+        //     $level['label_level6']['value'] = Level6::where('f_account_id', $akun->f_account_id)->get();
+        // } else {
+        //     $level['label_level6']["label"] = NULL;
+        //     $level['label_level6']["value"] = NULL;
+        // }
+
+        // if ($list_demografi->f_level7 == 1) {
+        //     $level['label_level7']['label'] = json_decode($surveySetting['f_label_level7'], true);
+        //     $level['label_level7']['value'] = Level7::where('f_account_id', $akun->f_account_id)->get();
+        // } else {
+        //     $level['label_level7']["label"] = NULL;
+        //     $level['label_level7']["value"] = NULL;
+        // }
+
+
+
+
+        return view('monitoring.index', compact('chartData', 'openQuestions', 'answersByCode', 'demografi', 'surveySetting', 'level', 'event'));
     }
 
     /**
@@ -356,7 +592,7 @@ class MonitoringController extends Controller
                 ])
                 ->leftJoin('table_length_of_service', 'trn_survey_empex.f_length_of_service', '=', 'table_length_of_service.f_id')
                 ->leftJoin('table_age', 'trn_survey_empex.f_age', '=', 'table_age.f_id');
-                // ->leftJoin('table_level_work', 'trn_survey_empex.f_level_of_work', '=', 'table_level_work.f_id');
+            // ->leftJoin('table_level_work', 'trn_survey_empex.f_level_of_work', '=', 'table_level_work.f_id');
 
             if ($request->filled('levelwork')) {
                 $query->where('trn_survey_empex.f_level_of_work', $request->levelwork);
@@ -432,7 +668,7 @@ class MonitoringController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     return $row->f_survey_valid === 'yes'
-                        ? '<a href="' . url('reports/createPdf/'.$row->f_email) . '" class="text-blue-600 underline">Download</a>'
+                        ? '<a href="' . url('reports/createPdf/' . $row->f_email) . '" class="text-blue-600 underline">Download</a>'
                         : '';
                 })
                 ->rawColumns(['checkbox', 'action'])
@@ -483,8 +719,9 @@ class MonitoringController extends Controller
         ));
     }
 
-    function event_monitoring(Request $request, $token_event){
-        
+    function event_monitoring(Request $request, $token_event)
+    {
+
         $event_client = EventClient::where('f_event_kode', $token_event)->first();
 
         $id_corporate = sha1(md5($event_client->f_corporate_id));
@@ -496,7 +733,7 @@ class MonitoringController extends Controller
 
         $list_monitoring = ListMonitoring::whereRaw('sha1(md5(f_account_id)) = ?', [$id_corporate])->first();
 
-        
+
 
         //   echo $kuota . " : ". $sisa;die();
 
@@ -504,11 +741,11 @@ class MonitoringController extends Controller
 
 
         $appreance = Setting::whereRaw('sha1(md5(id_corporate)) = ?', [$id_corporate])->first();
-        
 
 
 
-        if ($request->ajax()) { 
+
+        if ($request->ajax()) {
             $query = DB::table('trn_survey_empex')
                 ->leftJoin('table_level_position1', 'trn_survey_empex.f_level1', '=', 'table_level_position1.f_id')
                 ->leftJoin('table_level_position2', 'trn_survey_empex.f_level2', '=', 'table_level_position2.f_id')
@@ -606,7 +843,7 @@ class MonitoringController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     return $row->f_survey_valid === 'yes'
-                        ? '<a href="' . url('reports/createPdf/'.$row->f_email) . '" class="text-blue-600 underline">Download</a>'
+                        ? '<a href="' . url('reports/createPdf/' . $row->f_email) . '" class="text-blue-600 underline">Download</a>'
                         : '';
                 })
                 ->rawColumns(['checkbox', 'action'])
@@ -660,13 +897,14 @@ class MonitoringController extends Controller
         ));
     }
 
-    function quick_count_monitoring(Request $request, $token_event){
+    function quick_count_monitoring(Request $request, $token_event)
+    {
 
         $event_client = EventClient::where('f_event_kode', $token_event)->first();
 
         $id_corporate = sha1(md5($event_client->f_corporate_id));
 
-        
+
         // $sudah_isi = $event_client->f_sudah_isi;
         $sudah_isi = $event_client->f_sudah_isi_temp;
         $code_event = $token_event;
@@ -711,21 +949,21 @@ class MonitoringController extends Controller
 
         $final_sudah_isi = $sudah_isi_temp + $random;
 
-        if($final_sudah_isi <= $sudah_isi){
+        if ($final_sudah_isi <= $sudah_isi) {
             //update
             // EventClient::where('f_event_kode', $id)->update()
             EventClient::where('f_event_kode', $id)
-            ->update(['f_sudah_isi_temp' => $final_sudah_isi]);
+                ->update(['f_sudah_isi_temp' => $final_sudah_isi]);
 
 
             return response()->json([
                 'code' => 200,
-                'status' => 'success update to '.$final_sudah_isi
+                'status' => 'success update to ' . $final_sudah_isi
             ]);
-        }else{
+        } else {
             return response()->json([
                 'code' => 201,
-                'status' => 'failed update to '.$final_sudah_isi.' max limit reached '.$sudah_isi
+                'status' => 'failed update to ' . $final_sudah_isi . ' max limit reached ' . $sudah_isi
             ]);
         }
 
@@ -733,8 +971,8 @@ class MonitoringController extends Controller
 
     public function get_child($level = NULL, $id = NULL)
     {
-        $table = 'table_level_position'.($level+1);
-        $field_id = 'f_id'.($level);
+        $table = 'table_level_position' . ($level + 1);
+        $field_id = 'f_id' . ($level);
 
         // echo $table." - ".$field_id;
 
@@ -743,13 +981,56 @@ class MonitoringController extends Controller
         // echo json_encode($results);
 
         return response()->json([
-                'code' => 200,
-                'data' => $results
-            ]);
+            'code' => 200,
+            'data' => $results
+        ]);
 
         // $data['child'] = Level2::where('f_account_id', Auth::user()->f_account_id)->with('relasi_level1')->get();
-        
+
 
 
     }
+
+    function buildChartData($kode, $itemPertanyaan, $trnSurvey)
+    {
+        $q = $itemPertanyaan->firstWhere('f_kode', $kode);
+        if (!$q)
+            return null;
+
+        $title = $q->f_item ?? $kode;
+        $options = is_string($q->f_answer) ? json_decode($q->f_answer, true) : ($q->f_answer ?? []);
+        $labels = array_map(fn($o) => $o['label'], $options);
+        $values = array_map(fn($o) => (int) $o['value'], $options);
+
+        $valueToIndex = [];
+        foreach ($values as $i => $val)
+            $valueToIndex[$val] = $i;
+
+        $counts = array_fill(0, count($labels), 0);
+
+        foreach ($trnSurvey as $row) {
+            $payload = is_string($row->f_survey) ? json_decode($row->f_survey, true) : $row->f_survey;
+            if (!is_array($payload))
+                continue;
+
+            foreach (($payload['distribusi_jawaban'] ?? []) as $ans) {
+                if (($ans['jenis'] ?? null) != 1)
+                    continue;
+                if (($ans['code'] ?? null) !== $kode)
+                    continue;
+                $nilai = (int) ($ans['nilai'] ?? 0);
+                if (!isset($valueToIndex[$nilai]))
+                    continue;
+                $counts[$valueToIndex[$nilai]]++;
+            }
+        }
+
+        return [
+            'code' => $kode,
+            'title' => $title,
+            'categories' => $labels,
+            'series' => $counts,
+        ];
+    }
 }
+

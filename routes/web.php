@@ -38,7 +38,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 
 
 
-    Route::get('monitoring-event/{id}', [MonitoringController::class, 'event_monitoring'])->name('monitoring.event');
+    // Route::get('monitoring-event/{id}', [MonitoringController::class, 'event_monitoring'])->name('monitoring.event');
+    Route::get('monitoring-event/{id}', [MonitoringController::class, 'index'])->name('monitoring.event');
 
     Route::get('quick-count-event/{id}', [MonitoringController::class, 'quick_count_monitoring'])->name('quick.event');
     Route::post('get-quick-count/{id}', [MonitoringController::class, 'get_quick_count'])->name('getquick.event');
@@ -92,7 +93,7 @@ Route::prefix('/settings')->group(function () {
 });
 
 
-Route::prefix('/master_data')->middleware('role:2')->group(function () {
+Route::prefix('/master_data')->group(function () {
 
     Route::get('level1', [Level1Controller::class, 'index'])->name('master_data.level1.index');
     Route::post('level1_store', [Level1Controller::class, 'store'])->name('master_data.level1.store');

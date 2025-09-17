@@ -96,7 +96,7 @@
                                 </a>
 
 
-                                 <a href="{{ route('monitoring.event', ['id'=> $user->f_event_kode]) }}" class="bg-blue-500 text-white px-6 py-1 rounded-md">
+                                 <a href="{{ route('monitoring.event', ['id'=> $user->f_event_kode]) }}" class="bg-blue-500 text-white px-6 py-1 rounded-md" target="_blank">
                                     Link Monitoring
                                 </a>
                                 
