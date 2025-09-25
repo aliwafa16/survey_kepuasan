@@ -46,7 +46,7 @@ class EventClientController extends Controller
 
             DB::beginTransaction();
             $validated = $request->validate([
-                // 'f_corporate_id' => 'required',
+                'f_account_id' => 'required',
                 'f_event_name' => 'required|string|max:255',
                 'f_event_start' => 'required|date',
                 'f_event_start_time' => 'required|date_format:H:i',

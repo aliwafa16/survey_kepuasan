@@ -183,7 +183,7 @@ UserGroups::create([
     {
         $dataAccout = AccountClient::where('f_account_id', $id)->first();
         $data = [
-            'title' => 'Add Account Client',
+            'title' => 'Edit Account Client',
             'btn_add' => "Tambah data",
             'data_account' => $dataAccout
         ];
@@ -204,7 +204,7 @@ UserGroups::create([
                 'f_account_phone' => 'required|string|max:20',
                 'f_account_email' => 'required|email|max:255',
                 // 'f_user_password' => 'required',
-                'f_account_token' => 'required|string|max:255',
+                // 'f_account_token' => 'required|string|max:255',
             ]);
 
             $dataAccout = AccountClient::where('f_account_id', $request->input('f_account_id'))->update([
@@ -219,7 +219,7 @@ UserGroups::create([
                 // 'f_account_updated_on'  => now(),
                 // 'f_account_updated_by' => "administrator",
                 // 'f_account_status' => 1,
-                'f_account_token' => $request->input('f_account_token'),
+                // 'f_account_token' => $request->input('f_account_token'),
                 // 'is_corporate' => 1
             ]);
 

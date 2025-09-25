@@ -1,7 +1,7 @@
 @extends('layout.app')
 @section('content')
-     <div class="bg-[#0075FF]/14 w-full rounded-md py-2 px-4">
-        <h1 class="font-semibold text-2xl font-sans text-white">{{ $title }}</h1>
+     <div class="bg-white w-full rounded-md py-2 px-4">
+        <h1 class="font-semibold text-2xl font-sans text-slate-700">{{ $title }}</h1>
         <div class="flex my-2">
             @if (session('success'))
                 <h3 class="bg-emerald-600 px-4 py-2 text-white font-semibold rounded-md text-center">

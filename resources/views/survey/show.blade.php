@@ -82,10 +82,14 @@
 
 
     <div class="container p-6 mx-auto">
-        <main class="  h-auto mb-10">
-            <div class="container mx-auto px-4 py-8 border-spacing-2">
+        <main class="h-auto mb-10">
+            <div class="container mx-auto py-8 border-spacing-2">
+                <div class="flex flex-col justify-center w-full text-center pb-6">
+                    <p class="text-slate-600 md:text-2xl font-extrabold">{{ Str::replace('-', ' ', env('APP_NAME_FULL')) }}</p>
+                    <p class="text-slate-600 md:text-base font-normal">{{ $events->f_event_name }}</p>
+                </div>
                 <div
-                    class="container bg-[#7ea38d]/30 mx-auto px-16 py-8 border-2 border-[#505050] rounded-[20px] pengisian">
+                    class="container bg-[#7ea38d]/30 mx-auto px-6 py-4 md:px-16 md:py-8 border-1 border-slate-300 rounded-[20px] pengisian">
                     @if (optional($setting)->logo)
                         <center>
                             <img src="{{ asset('storage/' . $setting->logo) }}" class="mb-5 w-[200px]" alt="">
@@ -96,31 +100,35 @@
                         @csrf
 
                         <input type="hidden" id="account_id" name="account_id" value="{{ sha1($account_id) }}"
-                            class="w-full bg-white border px-4 py-2 rounded">
+                            class="w-full bg-white border border-slate-300 px-4 py-2 rounded">
                         <input type="hidden" id="event_id" name="event_id" value="{{ $event_id }}"
-                            class="w-full bg-white border px-4 py-2 rounded">
+                            class="w-full bg-white border border-slate-300 px-4 py-2 rounded">
                         <div id="demografi">
 
 
                             @if (isset($demografi['nip']['label'][$language]))
-                                <label class="text-white mb-2 text-lg font-bold"
+                                <label class="text-cyan-800 mb-2 text-lg font-bold "
                                     for="gender">{{ $demografi['nip']['label'][$language] }}</label>
                                 <input type="number" inputmode="numeric" pattern="[0-9]" id="nip" name="nip"
-                                    value='' class="w-full bg-white border px-4 py-2 rounded demografi mb-4" required>
+                                    value=''
+                                    class="w-full bg-white border border-slate-300 px-4 py-2 rounded demografi mb-4"
+                                    required>
                             @endif
 
                             @if (isset($demografi['nama']['label'][$language]))
-                                <label class="text-white mb-2 text-lg font-bold"
+                                <label class="text-cyan-800 mb-2 text-lg font-bold "
                                     for="gender">{{ $demografi['nama']['label'][$language] }}</label>
                                 <input type="text" id="name" name="name" value=''
-                                    class="w-full bg-white border px-4 py-2 rounded demografi mb-4" required>
+                                    class="w-full bg-white border border-slate-300 px-4 py-2 rounded demografi mb-4"
+                                    required>
                             @endif
 
                             @if (isset($demografi['email']['label'][$language]))
-                                <label class="text-white mb-2 text-lg font-bold"
+                                <label class="text-cyan-800 mb-2 text-lg font-bold "
                                     for="gender">{{ $demografi['email']['label'][$language] }}</label>
                                 <input type="text" id="email" name="email" value=''
-                                    class="w-full bg-white border px-4 py-2 rounded demografi mb-4" required>
+                                    class="w-full bg-white border border-slate-300 px-4 py-2 rounded demografi mb-4"
+                                    required>
                             @endif
 
 
@@ -128,10 +136,11 @@
 
 
                             @if (isset($demografi['gender']['label'][$language]))
-                                <label class="text-white mb-2 text-lg font-bold"
+                                <label class="text-cyan-800 mb-2 text-lg font-bold "
                                     for="gender">{{ $demografi['gender']['label'][$language] }}</label>
                                 <select name="gender" id="gender"
-                                    class="w-full bg-white border px-4 py-2 rounded demografi mb-4" required>
+                                    class="w-full bg-white border border-slate-300 px-4 py-2 rounded demografi mb-4"
+                                    required>
                                     <option value=""></option>
                                     @foreach ($demografi['gender']['value'] as $value)
                                         <option value="{{ $value['f_gender_id'] }}">{{ $value['f_gender_name'] }}
@@ -142,10 +151,11 @@
 
 
                             @if (isset($demografi['age']['label'][$language]))
-                                <label class="text-white mb-2 text-lg font-bold"
+                                <label class="text-cyan-800 mb-2 text-lg font-bold "
                                     for="age">{{ $demografi['age']['label'][$language] }}</label>
                                 <select name="age" id="age"
-                                    class="w-full bg-white border px-4 py-2 rounded demografi mb-4" required>
+                                    class="w-full bg-white border border-slate-300 px-4 py-2 rounded demografi mb-4"
+                                    required>
                                     <option value=""></option>
                                     @foreach ($demografi['age']['value'] as $value)
                                         <option value="{{ $value['f_id'] }}">{{ $value['f_age_desc'] }}</option>
@@ -155,10 +165,11 @@
 
 
                             @if (isset($demografi['masa_kerja']['label'][$language]))
-                                <label class="text-white mb-2 text-lg font-bold"
+                                <label class="text-cyan-800 mb-2 text-lg font-bold "
                                     for="masa_kerja">{{ $demografi['masa_kerja']['label'][$language] }}</label>
                                 <select name="masa_kerja" id="masa_kerja"
-                                    class="w-full bg-white border px-4 py-2 rounded demografi mb-4" required>
+                                    class="w-full bg-white border border-slate-300 px-4 py-2 rounded demografi mb-4"
+                                    required>
                                     <option value=""></option>
                                     @foreach ($demografi['masa_kerja']['value'] as $value)
                                         <option value="{{ $value['f_id'] }}">{{ $value['f_service_desc'] }}</option>
@@ -167,10 +178,11 @@
                             @endif
 
                             @if (isset($demografi['region']['label'][$language]))
-                                <label class="text-white mb-2 text-lg font-bold"
+                                <label class="text-cyan-800 mb-2 text-lg font-bold "
                                     for="region">{{ $demografi['region']['label'][$language] }}</label>
                                 <select name="region" id="region"
-                                    class="w-full bg-white border px-4 py-2 rounded demografi mb-4" required>
+                                    class="w-full bg-white border border-slate-300 px-4 py-2 rounded demografi mb-4"
+                                    required>
                                     <option value=""></option>
                                     @foreach ($demografi['region']['value'] as $value)
                                         <option value="{{ $value['f_id'] }}">{{ $value['f_region_name'] }}</option>
@@ -179,10 +191,11 @@
                             @endif
 
                             @if (isset($demografi['level_of_work']['label'][$language]))
-                                <label class="text-white mb-2 text-lg font-bold"
+                                <label class="text-cyan-800 mb-2 text-lg font-bold "
                                     for="level_of_work">{{ $demografi['level_of_work']['label'][$language] }}</label>
                                 <select name="level_of_work" id="level_of_work"
-                                    class="w-full bg-white border px-4 py-2 rounded demografi mb-4" required>
+                                    class="w-full bg-white border border-slate-300 px-4 py-2 rounded demografi mb-4"
+                                    required>
                                     <option value=""></option>
                                     @foreach ($demografi['level_of_work']['value'] as $value)
                                         <option value="{{ $value['f_id'] }}">{{ $value['f_levelwork_desc'] }}</option>
@@ -193,10 +206,11 @@
 
 
                             @if (isset($demografi['pendidikan']['label'][$language]))
-                                <label class="text-white mb-2 text-lg font-bold"
+                                <label class="text-cyan-800 mb-2 text-lg font-bold "
                                     for="pendidikan">{{ $demografi['pendidikan']['label'][$language] }}</label>
                                 <select name="pendidikan" id="pendidikan"
-                                    class="w-full bg-white border px-4 py-2 rounded demografi mb-4" required>
+                                    class="w-full bg-white border border-slate-300 px-4 py-2 rounded demografi mb-4"
+                                    required>
                                     <option value=""></option>
                                     @foreach ($demografi['pendidikan']['value'] as $value)
                                         <option value="{{ $value['f_id'] }}">{{ $value['f_name'] }}</option>
@@ -207,11 +221,11 @@
                             @foreach ($level as $key => $field)
                                 @if (isset($field['label'][$language]))
                                     <div>
-                                        <label class="text-white mb-2 text-lg font-bold"
+                                        <label class="text-cyan-800 mb-2 text-lg font-bold "
                                             for="{{ $key }}">{{ $field['label'][$language] }}</label>
                                         <select name="{{ $key }}" id="{{ $key }}"
                                             data-level="{{ $field['level'] ?? 0 }}"
-                                            class="w-full bg-white border px-4 py-2 rounded demografi mb-4 level"
+                                            class="w-full bg-white border border-slate-300 px-4 py-2 rounded demografi mb-4 level"
                                             onchange="changeLevel({{ $field['level'] ?? 0 }})" required>
                                             <option value=""></option>
                                             @foreach ($field['value'] as $value)
@@ -236,9 +250,9 @@
                             <div>
                                 <!-- Progress Bar -->
                                 <div class="flex justify-between mb-4">
-                                    <div class="text-white font-bold text-1xl leading-4">Progres Tes:</div>
+                                    <div class="text-cyan-800 font-bold text-1xl leading-4">Progres Tes:</div>
                                     <div class="">
-                                        <span id="progressPercentage" class=" text-white font-bold text-2xl leading-4"> 0%
+                                        <span id="progressPercentage" class=" text-cyan-800 font-bold text-2xl leading-4"> 0%
                                         </span>
                                     </div>
                                 </div>
@@ -258,7 +272,7 @@
                                     @endphp
                                     @foreach ($section as $question)
                                         <div class="mb-6 pb-4">
-                                            <p class="mb-2 text-white font-medium">
+                                            <p class="mb-2 text-cyan-800 font-medium">
                                                 {{ $question['f_item'] }}
                                             </p>
 
@@ -274,14 +288,13 @@
                                                                 name="answers[ex{{ $question['f_id'] }}]"
                                                                 value="{{ $answer['value'] }}"
                                                                 class="text-blue-600 focus:ring-blue-500">
-                                                            <span class="text-white">{{ $answer['label'] }}</span>
+                                                            <span class="text-cyan-800">{{ $answer['label'] }}</span>
                                                         </label>
                                                     @endforeach
                                                 </div>
                                             @elseif ($question['type'] == 2)
                                                 <textarea name="answers[ex{{ $question['f_id'] }}]" rows="3"
-                                                    class="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200">
-            </textarea>
+                                                    class="w-full rounded-md border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"></textarea>
                                             @endif
                                         </div>
                                     @endforeach
@@ -289,7 +302,7 @@
                                 </div>
                             @endforeach
 
-                            <div class="flex justify-center mt-6">
+                            <div class="flex justify-center mt-2">
                                 <button type="button" id="prevBtn" onclick="previous();"
                                     style="background-color: {{ $setting->color_primary ?? '#000165' }};"
                                     class="text-white py-2 px-4 rounded-[20px]">Sebelumnya</button>
@@ -302,473 +315,328 @@
                 </div>
             </div>
         </main>
-        <script>
-            // var nip = false;
-            // var status_nip = false;
-
-            // @if ($events->f_event_type == 1)
-            // var nip = true;
-            // var status_nip = false;
-
-            //      $('#nip').on('keyup', function () {
-            //             const nip = $(this).val().trim();
-
-            //             $.ajax({
-            //                 url: '{{ route('check.nip') }}',
-            //                 type: 'GET',
-            //                 data: { nip: nip },
-            //                 success: function (response) {
-            //                     if (response.available) {
-            //                         $('#nip-status').text('✅').css('color', 'green');
-            //                         status_nip = true;
-            //                     } else {
-            //                         $('#nip-status').text('❌').css('color', 'red');
-            //                         status_nip = false;
-            //                     }
-            //                 },
-            //                 error: function () {
-            //                     status_nip = false;
-            //                     $('#nip-status').text('⚠️ Error').css('color', 'orange');
-            //                 }
-            //             });
-            //         });
-            //  @endif
-
-
-
-            function previous() {
-                // e.preventDefault();
-                console.log(currentSection);
-                if (currentSection > 0) {
-                    currentSection--;
-                    updateSections();
-
-                    $('html, body').animate({
-                        scrollTop: 0
-                    }, 'fast');
-                }
-            };
-
-            $.each($('.level'), function(index, element) {
-                // console.log(element);
-                // console.log();
-                // console.log(index);
-
-                const level = $(element).data('level');
-
-            })
-
-            function changeLevel(level) {
-                var selector = '#label_level' + level;
-                $.ajax({
-                    url: "{{ Route('survey.getLevel') }}",
-                    method: "POST",
-                    data: {
-                        level,
-                        id: $(selector).val()
-                    },
-                    dataType: "JSON",
-                    success: function(response) {
-                        // console.log(response);
-
-                        var html = `<option value=""></option>`;
-
-                        $.each(response, function(index, value) {
-                            // console.log(value);
-                            html += `<option value="${value['f_id']}">${value['f_position_desc']}</option>`;
-                        });
-                        var selector_next = '#label_level' + (level + 1);
-                        $(selector_next).html('').html(html);
-
-
-                    }
-                });
-            }
-
-
-
-
-            const sections = $('.survey-section'); // Semua section
-            const prevBtn = $('#prevBtn'); // Tombol Previous
-            const nextBtn = $('#nextBtn'); // Tombol Next/Submit
-            const progressBar = $('#progressBar'); // Progress Bar
-            const progressPercentage = $('#progressPercentage'); // Teks persentase
-            let currentSection = 0; // Index section aktif
-            // Fungsi untuk memperbarui tampilan section
-
-
-            $('#mulai').on('click', function() {
-
-                let isValid = true;
-                $('#demografi')
-                    .find('input:not([type="hidden"]), select')
-                    .each(function() {
-                        if ($(this).val() === '') {
-                            isValid = false;
-                            $(this).addClass('border-red-500'); // Tambahkan efek merah
-                        } else {
-                            $(this).removeClass('border-red-500');
-                        }
-                    });
-
-                if (!isValid) {
-                    // alert('Semua field harus diisi!');
-                    Swal.fire({
-                        title: "Semua field harus diisi!",
-                        icon: "error",
-                        confirmButtonColor: "#3085d6",
-                        confirmButtonText: "OK"
-                    })
-                    return;
-                }
-
-
-                mulaiSurvey(); // fungsi kamu sendiri
-
-
-
-
-                // Jika semua valid
-            });
-
-            function mulaiSurvey() {
-                const email = $('#email').val().trim();
-                const account_id = $('#account_id').val()
-                const event_id = $('#event_id').val();
-
-                let data = {
-                    "email": email,
-                    "account_id": account_id,
-                    "event_id": event_id
-                };
-
-                // Append values from input[type=text] and select inside .demografi
-                $('.demografi').each(function() {
-                    let name = $(this).attr('name');
-                    let value = $(this).val();
-
-                    if (name) {
-                        data[name] = value;
-                    }
-                });
-
-
-                if (!email) {
-                    Swal.fire({
-                        title: "Email wajib diisi!",
-                        icon: "error",
-                        confirmButtonColor: "#3085d6",
-                        confirmButtonText: "OK"
-                    }).then(() => {
-                        window.location.reload();
-                    });;
-                    return;
-                }
-
-                $.ajax({
-                    url: "{{ Route('survey.check') }}",
-                    method: "POST",
-                    data: data,
-                    dataType: "JSON",
-                    success: function(response) {
-                        // console.log(response);
-                        if (response.survey_valid) {
-                            Swal.fire({
-                                title: response['msg'],
-                                icon: "info",
-                                confirmButtonColor: "#3085d6",
-                                confirmButtonText: "OK"
-                            }).then(() => {
-                                $('.pengisian').html(
-                                    '<h1 class="text-2xl text-white text-center">Terima Kasih atas partisipasi anda</h1>'
-                                )
-                            });
-                        } else if (!response.survey_valid) {
-                            // console.log(response);
-                            let result = '';
-                            let result_nip = '';
-                            $('.demografi').each(function() {
-                                let label = $(this).prev('label').text().trim();
-                                let value = ''
-                                if ($(this).is('select')) {
-                                    // If it's a select element, get the selected option's text
-                                    value = "<small style='font-weight:normal;'>" + $(this).find(
-                                        'option:selected').text().trim() + "</small>";
-                                } else {
-                                    // Otherwise, get the input value
-                                    value = "<small style='font-weight:normal;'>" + $(this).val().trim() +
-                                        "</small>";
-                                }
-                                if (value) {
-                                    result += label + ': \n' + value + '\n';
-                                }
-                            });
-
-                            if (response['from_nip']) {
-                                $(response['data_nip']['label']).each(function(i, v) {
-                                    let label = v;
-                                    let value = "<small style='font-weight:normal;'>" + response['data_nip']
-                                        ['value'][i] +
-                                        "</small>";
-                                    if (value) {
-                                        result += label + ': \n' + value + '\n';
-                                    }
-                                });
-                            }
-
-                            if (result) {
-                                Swal.fire({
-                                    title: '<div style="text-align: left;"><center>Apakah benar data berikut?</center>\n' +
-                                        result + '</div>\n',
-                                    html: `<span>Data demografi tidak dapat diubah setelah submit dan survey hanya bisa dilakukan 1x<span><br><span class="text-red-500 text-sm">${response.msg}</span><br>`,
-                                    icon: "warning",
-                                    showCancelButton: true,
-                                    confirmButtonColor: "#3085d6",
-                                    cancelButtonColor: "#d33",
-                                    confirmButtonText: "Ya, benar"
-                                }).then((confirm) => {
-                                    if (confirm.isConfirmed) {
-                                        $('#demografi').attr('hidden', true);
-                                        $('#surveySections').attr('hidden', false);
-                                        $('html, body').animate({
-                                            scrollTop: 0
-                                        }, 'fast');
-                                    }
-                                });
-                            } else {
-                                Swal.fire({
-                                    title: "Harap lengkapi data demografi Anda!",
-                                    icon: "error",
-                                    confirmButtonColor: "#3085d6",
-                                    confirmButtonText: "OK"
-                                });
-                            }
-                        }
-                    }
-                });
-            }
-
-
-
-            function updateSections() {
-                sections.each(function(index) {
-                    if (index === currentSection) {
-                        $(this).removeClass('hidden');
-                        $(this).addClass('aktif');
-                    } else {
-                        $(this).addClass('hidden');
-                        $(this).removeClass('aktif');
-                    }
-                });
-                // Update progress bar dan persentase
-                const progress = ((currentSection + 1) / sections.length) * 100;
-                progressBar.css('width', progress + '%');
-                progressPercentage.text(`${currentSection + 1} / ${sections.length}`);
-                // Kontrol tombol navigasi
-                prevBtn.prop('hidden', currentSection === 0);
-                // Ubah tombol "Next" menjadi "Submit" pada section terakhir
-                if (currentSection === sections.length - 1) {
-                    nextBtn.text('Kirim');
-                    nextBtn.off('click'); // Hapus event sebelumnya
-
-                    $(nextBtn).attr('type', 'submit');
-                    // nextBtn.on('click', function(e) {
-                    //   e.preventDefault(); // Jangan submit otomatis
-                    //   $('#surveyForm').submit(); // Kirim form
-                    // });
-                } else {
-                    nextBtn.text('Selanjutnya');
-                    nextBtn.off('click'); // Hapus event sebelumnya
-                    nextBtn.on('click', function(e) {
-                        e.preventDefault(); // Hentikan scroll otomatis
-                        var total_value = 0;
-                        var cek_total_value_min = 0;
-                        var cek_total_value_max = 0;
-
-                        var inputs = $(".survey-section.aktif input[type='range']");
-                        inputs.each(function() {
-                            console.log($(this).val()); // Menampilkan nilai input di console
-                            var r = $(this).val();
-                            if (parseFloat(r) < 1.25) {
-                                cek_total_value_min++;
-                            }
-                            if (parseFloat(r) > 9.75) {
-                                cek_total_value_max++;
-                            }
-                            total_value += parseInt(r);
-                        });
-
-                        console.log('min ' + cek_total_value_min + ' > @php echo $total_persentase; @endphp');
-                        console.log('max ' + cek_total_value_max + ' > @php echo $total_persentase; @endphp');
-
-                        // Ngiri
-                        if (parseInt(cek_total_value_min) > @php echo $total_persentase;@endphp) {
-                            console.log('refresh')
-                            swal.fire({
-                                title: "Sistem mendeteksi bahwa Anda terlalu sering memilih jawaban pada bagian paling kiri pada skala penilaian. ",
-                                text: 'Mohon untuk memberikan respons dengan lebih variatif dan objektif, sesuai dengan apa yang Anda rasakan terhadap masing-masing pernyataan.',
-                                icon: 'error',
-                                confirmButtonText: 'Close',
-                                confirmButtonColor: '#FF0000'
-                            })
-                            // currentSection = 0;
-                            // updateSections();
-                            // prevBtn.trigger('click');
-
-                            //console.log(currentSection);
-
-                            return false;
-                        }
-                        // Nganan
-                        if (parseInt(cek_total_value_max) > @php echo $total_persentase;@endphp) {
-                            console.log('refresh')
-                            swal.fire({
-                                title: "Sistem mendeteksi bahwa Anda terlalu sering memilih jawaban pada bagian paling kanan pada skala penilaian. ",
-                                text: 'Mohon untuk memberikan respons dengan lebih variatif dan objektif, sesuai dengan apa yang Anda rasakan terhadap masing-masing pernyataan.',
-                                icon: 'error',
-                                confirmButtonText: 'Close',
-                                confirmButtonColor: '#FF0000'
-                            })
-                            // currentSection = 0;
-                            //updateSections();
-
-                            // console.log(currentSection);
-
-                            return false;
-                        }
-
-                        currentSection++;
-                        updateSections();
-                        // Scroll ke atas section baru
-                        $('html, body').animate({
-                            scrollTop: 0
-                        }, 'fast');
-                    });
-                }
-            }
-
-
-
-            // Inisialisasi tampilan awal
-            updateSections();
-
-
-            $('#surveyForm').on('submit', function(e) {
-                e.preventDefault();
-
-                let form = $(this)[0];
-                let formData = new FormData(form);
-                let submitBtn = $(this).find('button[type="submit"]');
-                let originalBtnText = submitBtn.html();
-
-                // Disable and show loading
-                submitBtn.prop('disabled', true).html('Loading...');
-                var range = $('input[type="range"]');
-                var total_value = 0;
-                var cek_total_value_min = 0;
-                var cek_total_value_max = 0;
-
-                var inputs = $(".survey-section.aktif input[type='range']");
-                inputs.each(function() {
-                    console.log($(this).val()); // Menampilkan nilai input di console
-                    var r = $(this).val();
-                    if (parseFloat(r) < 1.25) {
-                        cek_total_value_min++;
-                    }
-                    if (parseFloat(r) > 9.75) {
-                        cek_total_value_max++;
-                    }
-                    total_value += parseInt(r);
-                });
-
-                console.log('min ' + cek_total_value_min + ' > @php echo $total_persentase; @endphp');
-                console.log('max ' + cek_total_value_max + ' > @php echo $total_persentase; @endphp');
-
-                if (parseInt(cek_total_value_min) > @php echo $total_persentase;@endphp) {
-                    console.log('refresh')
-                    swal.fire({
-                        title: "Sistem mendeteksi bahwa Anda terlalu sering memilih jawaban pada bagian paling kiri pada skala penilaian. ",
-                        text: 'Mohon untuk memberikan respons dengan lebih variatif dan objektif, sesuai dengan apa yang Anda rasakan terhadap masing-masing pernyataan.',
-                        icon: 'error',
-                        confirmButtonText: 'Close',
-                        confirmButtonColor: '#FF0000'
-                    })
-                    // currentSection = 0;
-                    // updateSections();
-
-                    // console.log(currentSection);
-
-                    submitBtn.removeAttr('disabled').html('Kirim');
-                    return false;
-                }
-                // Nganan
-                if (parseInt(cek_total_value_max) > @php echo $total_persentase;@endphp) {
-                    console.log('refresh')
-                    swal.fire({
-                        title: "Sistem mendeteksi bahwa Anda terlalu sering memilih jawaban pada bagian paling kanan pada skala penilaian. ",
-                        text: 'Mohon untuk memberikan respons dengan lebih variatif dan objektif, sesuai dengan apa yang Anda rasakan terhadap masing-masing pernyataan.',
-                        icon: 'error',
-                        confirmButtonText: 'Close',
-                        confirmButtonColor: '#FF0000'
-                    })
-                    // currentSection = 0;
-                    // updateSections();
-
-                    // console.log(currentSection);
-
-                    submitBtn.removeAttr('disabled').html('Kirim');
-                    return false;
-                }
-
-                // console.log(total_value);
-
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method') || 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    dataType: "JSON",
-                    success: function(response) {
-                        if (response['status'] == 'success') {
-                            Swal.fire({
-                                icon: 'success',
-                                title: response['msg'],
-                            }).then(() => {
-                                // var acc_id = $('#account_id').val();
-
-                                // if (acc_id == 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f') {
-                                $('.pengisian').html(
-                                    '<h1 class="text-2xl text-white text-center">Terima Kasih atas partisipasi anda</h1>'
-                                )
-                                // } else {
-                                //     window.location.reload();
-
-                                // }
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal',
-                                text: response.msg
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error:', error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Gagal',
-                            text: 'Terjadi kesalahan saat mengirim form.'
-                        });
-                    },
-                    complete: function() {
-                        // Re-enable button and restore original text
-                        submitBtn.prop('disabled', false).html(originalBtnText);
-                    }
-                });
-            });
-        </script>
+<script>
+// ====== Setup umum ======
+$.ajaxSetup({
+  headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+});
+
+const sections = $('.survey-section');
+const prevBtn = $('#prevBtn');
+const nextBtn = $('#nextBtn');
+const progressBar = $('#progressBar');
+const progressPercentage = $('#progressPercentage');
+let currentSection = 0;
+
+// ====== Util ======
+const escapeHtml = (str) => String(str)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+  .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+
+function scrollTopFast() { $('html, body').animate({ scrollTop: 0 }, 'fast'); }
+
+function markError($el, isError) {
+  // Tambah/kurangi ring merah di elemen input atau wrapper-nya
+  if ($el.is('textarea, input')) {
+    $el.toggleClass('ring-2 ring-red-500', isError);
+  } else {
+    $el.toggleClass('ring-2 ring-red-500 rounded-md p-2', isError);
+  }
+}
+
+// ====== Validasi Demografi ======
+function validateDemografiNotEmpty() {
+  let valid = true;
+  $('#demografi').find('input:not([type="hidden"]), select').each(function() {
+    const empty = ($(this).val() === '' || $(this).val() === null);
+    $(this).toggleClass('border-red-500', empty);
+    if (empty) valid = false;
+  });
+  return valid;
+}
+
+function collectDemografiData() {
+  const data = {
+    email: $('#email').val()?.trim() || '',
+    account_id: $('#account_id').val(),
+    event_id: $('#event_id').val(),
+  };
+  // Ambil semua input/select demografi yang diberi class .demografi
+  $('.demografi').each(function() {
+    const name = $(this).attr('name');
+    if (!name) return;
+    const value = $(this).is('select')
+      ? $(this).find('option:selected').val()
+      : $(this).val();
+    data[name] = value;
+  });
+  return data;
+}
+
+function buildDemografiPreviewHtml(extraPairs = []) {
+  let html = '';
+  $('.demografi').each(function() {
+    const $el = $(this);
+    const label = $el.prev('label').text().trim();
+    const valueText = $el.is('select') ? $el.find('option:selected').text().trim() : ($el.val()||'').trim();
+    if (label && valueText) {
+      html += `${escapeHtml(label)}:<br><small style="font-weight:normal;">${escapeHtml(valueText)}</small><br>`;
+    }
+  });
+  extraPairs.forEach(([label, value]) => {
+    html += `${escapeHtml(label)}:<br><small style="font-weight:normal;">${escapeHtml(value)}</small><br>`;
+  });
+  return `<div style="text-align:left;">${html}</div>`;
+}
+
+// ====== Validasi Section (radio & textarea) ======
+function validateActiveSection() {
+  const $active = $('.survey-section.aktif');
+  let ok = true;
+
+  // Bersihkan error dulu
+  $active.find('.ring-red-500').removeClass('ring-2 ring-red-500');
+
+  // 1) RADIO: pastikan tiap group memiliki checked
+  const radioGroups = new Set();
+  $active.find('input[type="radio"]').each(function() {
+    radioGroups.add($(this).attr('name'));
+  });
+  radioGroups.forEach((groupName) => {
+    const $group = $active.find(`input[type="radio"][name="${groupName}"]`);
+    const anyChecked = $group.is(':checked');
+    if (!anyChecked) {
+      // Tandai wrapper dari radio (pakai parent terdekat yang wajar)
+      markError($group.first().closest('.space-y-2').length ? $group.first().closest('.space-y-2') : $group.first().parent(), true);
+      ok = false;
+    }
+  });
+
+  // 2) TEXTAREA: wajib diisi minimal 3 karakter
+  $active.find('textarea').each(function() {
+    const val = ($(this).val() || '').trim();
+    if (val.length < 3) {
+      markError($(this), true);
+      ok = false;
+    }
+  });
+
+  if (!ok) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Lengkapi jawaban Anda',
+      text: 'Harap isi semua pertanyaan pada section ini sebelum melanjutkan.'
+    });
+  }
+  return ok;
+}
+
+// Validasi seluruh form (semua section) saat submit
+function validateAllSectionsBeforeSubmit() {
+  let ok = true;
+
+  // Bersihkan semua error
+  $('.survey-section').find('.ring-red-500').removeClass('ring-2 ring-red-500');
+
+  // RADIO
+  const allRadioGroups = new Set();
+  $('input[type="radio"]').each(function() { allRadioGroups.add($(this).attr('name')); });
+  allRadioGroups.forEach((groupName) => {
+    const $group = $(`input[type="radio"][name="${groupName}"]`);
+    const anyChecked = $group.is(':checked');
+    if (!anyChecked) {
+      markError($group.first().closest('.space-y-2').length ? $group.first().closest('.space-y-2') : $group.first().parent(), true);
+      ok = false;
+    }
+  });
+
+  // TEXTAREA
+  $('textarea').each(function() {
+    const val = ($(this).val() || '').trim();
+    if (val.length < 3) {
+      markError($(this), true);
+      ok = false;
+    }
+  });
+
+  if (!ok) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Jawaban belum lengkap',
+      text: 'Masih ada pertanyaan yang belum diisi. Silakan lengkapi semua jawaban.'
+    });
+  }
+  return ok;
+}
+
+// ====== Navigasi section ======
+function updateSections() {
+  sections.each(function(index) {
+    $(this).toggleClass('hidden', index !== currentSection)
+           .toggleClass('aktif', index === currentSection);
+  });
+
+  const progress = ((currentSection + 1) / sections.length) * 100;
+  progressBar.css('width', progress + '%').attr('aria-valuenow', Math.round(progress));
+  progressPercentage.text(`${currentSection + 1} / ${sections.length}`);
+
+  prevBtn.prop('hidden', currentSection === 0);
+
+  nextBtn.off('click');
+  if (currentSection === sections.length - 1) {
+    nextBtn.text('Kirim').attr('type', 'submit');
+  } else {
+    nextBtn.text('Selanjutnya').attr('type', 'button').on('click', function(e) {
+      e.preventDefault();
+      if (!validateActiveSection()) return;
+      currentSection++;
+      updateSections();
+      scrollTopFast();
+    });
+  }
+}
+
+function previous() {
+  if (currentSection > 0) {
+    currentSection--;
+    updateSections();
+    scrollTopFast();
+  }
+}
+window.previous = previous; // dipakai di onclick
+
+// ====== changeLevel (jika dipakai) ======
+function changeLevel(level) {
+  const selector = '#'+($('#level_of_work').length ? 'level_of_work' : ('label_level' + level)); // fallback
+  const id = $(selector).val();
+  const nextSelector = '#label_level' + (level + 1);
+
+  $(nextSelector).prop('disabled', true).html('<option>Loading...</option>');
+
+  $.ajax({
+    url: "{{ Route('survey.getLevel') }}",
+    method: "POST",
+    data: { level, id },
+    dataType: "JSON",
+    success: function(response) {
+      let html = `<option value=""></option>`;
+      $.each(response, function(_, v) {
+        html += `<option value="${v['f_id']}">${escapeHtml(v['f_position_desc'])}</option>`;
+      });
+      $(nextSelector).html(html).prop('disabled', false);
+    },
+    error: function() {
+      $(nextSelector).html('<option value="">Gagal memuat</option>').prop('disabled', false);
+      Swal.fire({ icon: 'error', title: 'Error', text: 'Gagal memuat level berikutnya.' });
+    }
+  });
+}
+window.changeLevel = changeLevel;
+
+// ====== Mulai & Cek survey ======
+$('#mulai').on('click', function() {
+  if (!validateDemografiNotEmpty()) {
+    Swal.fire({ title: "Semua field demografi harus diisi!", icon: "error", confirmButtonColor: "#3085d6", confirmButtonText: "OK" });
+    return;
+  }
+
+  const data = collectDemografiData();
+  if (!data.email) {
+    Swal.fire({ title: "Email wajib diisi!", icon: "error", confirmButtonColor: "#3085d6", confirmButtonText: "OK" })
+      .then(() => window.location.reload());
+    return;
+  }
+
+  $.ajax({
+    url: "{{ Route('survey.check') }}",
+    method: "POST",
+    data,
+    dataType: "JSON",
+    success: function(response) {
+      if (response.survey_valid) {
+        Swal.fire({ title: response.msg, icon: "info", confirmButtonColor: "#3085d6", confirmButtonText: "OK" })
+          .then(() => $('.pengisian').html('<h1 class="text-2xl text-cyan-800 text-center">Terima Kasih atas partisipasi anda</h1>'));
+        return;
+      }
+
+      const extra = [];
+      if (response.from_nip) {
+        (response.data_nip.label || []).forEach((label, i) => {
+          extra.push([label, response.data_nip.value?.[i] ?? '']);
+        });
+      }
+
+      const preview = buildDemografiPreviewHtml(extra);
+      Swal.fire({
+        title: '<center>Apakah benar data berikut?</center>',
+        html: `${preview}<br><span>Data demografi tidak dapat diubah setelah submit dan survey hanya bisa dilakukan 1x</span><br><span class="text-red-500 text-sm">${escapeHtml(response.msg || '')}</span>`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, benar"
+      }).then((confirm) => {
+        if (confirm.isConfirmed) {
+          $('#demografi').attr('hidden', true);
+          $('#surveySections').attr('hidden', false);
+          scrollTopFast();
+        }
+      });
+    },
+    error: function() {
+      Swal.fire({ icon: 'error', title: 'Error', text: 'Gagal memeriksa status survey.' });
+    }
+  });
+});
+
+// ====== Submit form ======
+$('#surveyForm').on('submit', function(e) {
+  e.preventDefault();
+
+  // Validasi section aktif (supaya feedbacknya terlihat di layar terakhir)
+  if (!validateActiveSection()) return;
+
+  // Validasi seluruh jawaban
+  if (!validateAllSectionsBeforeSubmit()) return;
+
+  const form = this;
+  const formData = new FormData(form);
+  const submitBtn = $(form).find('button[type="submit"]');
+  const originalBtnText = submitBtn.html();
+
+  submitBtn.prop('disabled', true).html('Loading...');
+
+  $.ajax({
+    url: $(form).attr('action'),
+    type: $(form).attr('method') || 'POST',
+    data: formData,
+    processData: false,
+    contentType: false,
+    dataType: "JSON",
+    success: function(response) {
+      if (response.status === 'success') {
+        Swal.fire({ icon: 'success', title: response.msg })
+          .then(() => {
+            $('.pengisian').html('<h1 class="text-2xl text-white text-center">Terima Kasih atas partisipasi anda</h1>');
+          });
+      } else {
+        Swal.fire({ icon: 'error', title: 'Gagal', text: response.msg || 'Terjadi kesalahan.' });
+      }
+    },
+    error: function(xhr, status, error) {
+      console.error('Error:', error);
+      Swal.fire({ icon: 'error', title: 'Gagal', text: 'Terjadi kesalahan saat mengirim form.' });
+    },
+    complete: function() {
+      submitBtn.prop('disabled', false).html(originalBtnText);
+    }
+  });
+});
+
+// ====== Init ======
+updateSections();
+</script>
+
 
         @php
             $welcome = json_decode($surveySetting->f_page_welcome, true);

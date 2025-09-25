@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         
-        <title>Talent DNA - Corporate</title>
+         <title>{{ config('app.name', 'TalentDNA Corporate') }}</title>
 
 
             <!-- Favicon-->
@@ -46,11 +46,21 @@
     </head>
 @php
     $color = optional($setting ?? null)->color_secondary;
-
-    $backgroundStyle = $color
-        ? "background-color: {$color};"
-        : "background-image: url('" . asset('img/login.png') . "');";
+$backgroundStyle = $color
+    ? "background-color: {$color};"
+    : "background-image: url('" . asset('assets/images/5315093.jpg') . "'); 
+       background-repeat: no-repeat; 
+       background-position: center; 
+       background-size: 140% auto;"; // default PC
 @endphp
+
+<style>
+@media (max-width: 768px) {
+    body {
+        background-size: 320% auto !important;
+    }
+}
+</style>
 
 <body class="font-sans text-gray-900 antialiased bg-center bg-no-repeat bg-fixed" style="{{ $backgroundStyle }}">
     @if (Route::has('login'))

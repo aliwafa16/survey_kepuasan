@@ -1,7 +1,7 @@
 <div>
     <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar"
         type="button"
-        class="inline-flex items-center p-2 mt-2 ml-3 text-white text-sm text-gray-500 rounded-lg sm:hidden hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-gray-200">
+        class="inline-flex items-center p-2 mt-2 ml-3 text-slate-600 font-medium text-sm text-gray-500 rounded-lg sm:hidden hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-gray-200">
         <span class="sr-only">Open sidebar</span>
         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path clip-rule="evenodd" fill-rule="evenodd"
@@ -13,11 +13,11 @@
     <aside id="default-sidebar"
         class="stikcy top-10 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidenav">
-        <div class="overflow-y-auto py-5 px-3 h-full bg-gradient-to-bl from-[#050C27] to-[#01215A] ">
+        <div class="overflow-y-auto py-5 px-3 h-full shadow-xl ">
             <!-- Logo -->
             <div class="shrink-0 flex items-center">
                 <a href="{{ route('dashboard') }}" class="flex items-center text-2xl text-white font-bold">
-                    <img src="{{ asset('img/logo.png') }}" width="75px"> </img> Corporate
+                    <img src="https://actconsulting.co/wp-content/uploads/2023/10/ACT-AT-Landscape-BLUE.png" class="p-1"></img>
                 </a>
             </div>
             <hr class="py-4 border-gray-500">
@@ -30,20 +30,20 @@
                     $role = $roles->groups->first()->id ?? null;
                 @endphp
                 @if($role == 1)
-                    <li>
+                    {{-- <li>
                         <a href="{{ route('dashboard') }}"
                             class="flex items-center p-2 text-base font-normal text-white rounded-lg group">
                             <div class="bg-gray-100 p-2 rounded-md"><img src="{{ asset('img/icon/monitoring.png') }}"
                                     alt=""></div>
-                            <span class="ml-3 text-white">Dashboard</span>
+                            <span class="ml-3 text-slate-600 font-medium">Dashboard</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li>
                         <a href="{{ route('account.index') }}"
                             class="flex items-center p-2 text-base font-normal text-white rounded-lg group">
                             <div class="bg-gray-100 p-2 rounded-md"><img src="{{ asset('img/icon/monitoring.png') }}"
                                     alt=""></div>
-                            <span class="ml-3 text-white">List Akun</span>
+                            <span class="ml-3 text-slate-600 font-medium">List Akun</span>
                         </a>
                     </li>
                     <li>
@@ -51,7 +51,7 @@
                             class="flex items-center p-2 text-base font-normal text-white rounded-lg group">
                             <div class="bg-gray-100 p-2 rounded-md"><img src="{{ asset('img/icon/monitoring.png') }}"
                                     alt=""></div>
-                            <span class="ml-3 text-white">Event Akun</span>
+                            <span class="ml-3 text-slate-600 font-medium">Event Akun</span>
                         </a>
                     </li>
                     <li>
@@ -59,7 +59,7 @@
                             class="flex items-center p-2 text-base font-normal text-white rounded-lg group">
                             <div class="bg-gray-100 p-2 rounded-md"><img src="{{ asset('img/icon/monitoring.png') }}"
                                     alt=""></div>
-                            <span class="ml-3 text-white">Dimensi</span>
+                            <span class="ml-3 text-slate-600 font-medium">Variabel</span>
                         </a>
                     </li>
                              <li>
@@ -67,7 +67,7 @@
                             class="flex items-center p-2 text-base font-normal text-white rounded-lg group">
                             <div class="bg-gray-100 p-2 rounded-md"><img src="{{ asset('img/icon/monitoring.png') }}"
                                     alt=""></div>
-                            <span class="ml-3 text-white">Item pertanyaan</span>
+                            <span class="ml-3 text-slate-600 font-medium">Item pertanyaan</span>
                         </a>
                     </li>
                 @endif
@@ -80,7 +80,7 @@
                             <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                             <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                         </svg>
-                        <span class="ml-3 text-white">Overview</span>
+                        <span class="ml-3 text-slate-600 font-medium">Overview</span>
                     </a>
                 </li> --}}
 
@@ -93,7 +93,7 @@
                             class="flex items-center p-2 text-base font-normal text-white rounded-lg group">
                             <div class="bg-gray-100 p-2 rounded-md"><img src="{{ asset('img/icon/monitoring.png') }}"
                                     alt=""></div>
-                            <span class="ml-3 text-white">Monitoring</span>
+                            <span class="ml-3 text-slate-600 font-medium">Monitoring</span>
                         </a>
                     </li>
                      <li>
@@ -101,7 +101,7 @@
                             class="flex items-center p-2 text-base font-normal text-white rounded-lg group">
                             <div class="bg-gray-100 p-2 rounded-md"><img src="{{ asset('img/icon/monitoring.png') }}"
                                     alt=""></div>
-                            <span class="ml-3 text-white">Event Akun</span>
+                            <span class="ml-3 text-slate-600 font-medium">Event Akun</span>
                         </a>
                     </li>
                     <li>
@@ -111,7 +111,7 @@
                             <div class="bg-gray-100 p-2 rounded-md"><img src="{{ asset('img/icon/master_data.png') }}"
                                     alt=""></div>
 
-                            <span class="flex-1 ml-3 text-white text-left whitespace-nowrap">Master data</span>
+                            <span class="flex-1 ml-3 text-slate-600 font-medium text-left whitespace-nowrap">Master data</span>
                             <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
@@ -180,7 +180,7 @@
                             class="flex items-center p-2 text-base font-normal text-white rounded-lg transition duration-75 hover:bg-blue-600 group">
                             <div class="bg-gray-100 p-2 rounded-md"><img
                                     src="{{ asset('img/icon/account_setting.png') }}" alt=""></div>
-                            <span class="ml-3 text-white">Pengaturan akun</span>
+                            <span class="ml-3 text-slate-600 font-medium">Pengaturan akun</span>
                         </a>
                     </li>
                 @endif

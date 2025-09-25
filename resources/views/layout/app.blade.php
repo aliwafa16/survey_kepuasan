@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Talent DNA - Corporate</title>
+     <title>{{ config('app.name', 'TalentDNA Corporate') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -14,18 +14,9 @@
 
 
     <!-- Favicon-->
-    <link rel="shortcut icon" href="https://talentdna.me/tdna/assets/images/fav_talent_dna.png" type="image/x-icon">
-    <link rel="icon" type="image/*" href="https://talentdna.me/tdna/assets/images/fav_talent_dna.png">
-    <link rel="apple-touch-icon" type="image/x-icon"
-        href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72"
-        href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114"
-        href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144"
-        href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
-    <meta property="og:image" content="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
-    <meta property="twitter:image" content="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
+<link rel="icon" href="https://actconsulting.co/wp-content/uploads/2021/06/cropped-fav-icon-ACT-Consulting-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://actconsulting.co/wp-content/uploads/2021/06/cropped-fav-icon-ACT-Consulting-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://actconsulting.co/wp-content/uploads/2021/06/cropped-fav-icon-ACT-Consulting-180x180.png" />
 
 
 
@@ -57,8 +48,8 @@
 
 
 
-<body class="h-screen overflow-hidden bg-gradient-to-l from-[#050C27] to-[#01215A] text-white">
-{{-- <body class="h-screen overflow-hidden"> --}}
+{{-- <body class="h-screen overflow-hidden bg-gradient-to-l from-[#050C27] to-[#01215A] text-white"> --}}
+<body class="h-screen overflow-hidden text-slate-700">
 
 
     {{-- <x-navbar /> --}}
@@ -100,11 +91,19 @@
             background-color: transparent !important;
         }
 
-        .datatable-table td {
-            color: white;
-            padding: 0.75rem 1rem;
-            text-align: left;
-        }
+.datatable-table td {
+    color: #334155; /* slate-700 */
+    padding: 0.75rem 1rem;
+    text-align: left;
+}
+
+.datatable-table {
+    .datatable-wrapper & thead {
+        font-size: 0.75rem;
+        color: #ffffff;
+        background-color: #61a5fb;
+    }
+}
 
         /* Tambahkan pagination custom jika diperlukan */
     </style>
@@ -173,10 +172,10 @@
     <div class="flex h-screen pb-10">
         <x-sidebar />
 
-        <main class="flex-1 overflow-auto ">
+        <main class="flex-1 overflow-auto bg-slate-200x`">
 
             @include('layouts.navigation')
-            <div class="p-6">
+            <div class="p-6 bg-slate-200">
                 @yield('content')
             </div>
         </main>

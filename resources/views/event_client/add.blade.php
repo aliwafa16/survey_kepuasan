@@ -1,7 +1,7 @@
 @extends('layout.app')
 @section('content')
-    <div class="bg-[#0075FF]/14 w-full rounded-md py-2 px-4">
-        <h1 class="font-semibold text-2xl font-sans text-white">{{ $title }}</h1>
+    <div class="bg-white w-full rounded-md py-2 px-4">
+        <h1 class="font-semibold text-2xl font-sans text-slate-700">{{ $title }}</h1>
         <div class="flex my-2">
             @if (session('success'))
                 <h3 class="bg-emerald-600 px-4 py-2 text-white font-semibold rounded-md text-center">
@@ -25,11 +25,11 @@
             <div class="grid grid-cols-1 gap-3">
                 <div>
                     <div class="mb-3">
-                        <label for="f_corporate_id" class="block mb-2 text-sm">Akun</label>
-                        <select id="f_corporate_id" name="f_corporate_id"
+                        <label for="f_account_id" class="block mb-2 text-sm">Akun</label>
+                        <select id="f_account_id" name="f_account_id"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             @foreach($akun as $key => $value)
-                                <option value="{{ $value->f_account_id }}" {{ old('f_corporate_id') == $value->f_account_id ? 'selected' : '' }}>{{ $value->f_account_name }}</option>
+                                <option value="{{ $value->f_account_id }}" {{ old('f_account_id') == $value->f_account_id ? 'selected' : '' }}>{{ $value->f_account_name }}</option>
                             @endforeach
                         </select>
                     </div>

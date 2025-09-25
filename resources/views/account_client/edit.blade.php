@@ -1,7 +1,7 @@
 @extends('layout.app')
 @section('content')
-    <div class="bg-[#0075FF]/14 w-full rounded-md py-2 px-4">
-        <h1 class="font-semibold text-2xl font-sans text-white">{{ $title }}</h1>
+    <div class="bg-white shadow-xl w-full rounded-md py-2 pt-4  px-4">
+        <h1 class="font-semibold text-2xl font-sans text-slate-700">{{ $title }}</h1>
         <div class="flex my-2">
             @if (session('success'))
                 <h3 class="bg-emerald-600 px-4 py-2 text-white font-semibold rounded-md text-center">
@@ -46,15 +46,6 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             placeholder="" name="f_account_contact" id="f_account_contact"
                             value="{{ old('f_account_contact', $data_account->f_account_contact) }}">
-                    </div>
-                    <div class="mb-3 w-1/2">
-                        <label for="f_account_token" class="block mb-2 text-sm">Jumlah Token /
-                            Responden</label>
-                        <input type="text" id="text" aria-describedby="helper-text-explanation"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            placeholder="" name="f_account_token" id="f_account_token" maxlength="8"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                            value="{{ old('f_account_token', $data_account->f_account_token) }}">
                     </div>
                     <div class="mb-3 w-1/2">
                         <label for="f_account_phone" class="block mb-2 text-sm">No.Telp</label>
