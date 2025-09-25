@@ -78,6 +78,9 @@ $q->when($req->filled('q'), function ($x) use ($req) {
 $trnSurvey = $q->get();
 
 
+$jumlah_responden = $trnSurvey->count();
+
+
         $itemPertanyaan = ItemPernyataanModel::all();
 
         $chartData = [];
@@ -265,7 +268,9 @@ $trnSurvey = $q->get();
 
 
 
-        return view('monitoring.index', compact('chartData', 'openQuestions', 'answersByCode', 'demografi', 'surveySetting', 'level', 'event'));
+
+
+        return view('monitoring.index', compact('chartData', 'openQuestions', 'answersByCode', 'demografi', 'surveySetting', 'level', 'event', 'jumlah_responden'));
     }
 
     /**
@@ -536,7 +541,7 @@ $trnSurvey = $q->get();
     public function monitoring_user(Request $request, $id_corporate, $id_event)
     {
         // echo $id_corporate;die();   
-        $event_client = EventClient::where('f_event_id', $id_event)->first();
+        $event_client = EventClient::where('f_event_id', $id_event)->with(['akun_client'])->first();
         // echo json_encode($event_client);die();
 
         $id_corporate = sha1(md5($event_client->f_corporate_id));

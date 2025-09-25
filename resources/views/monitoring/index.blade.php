@@ -5,7 +5,7 @@
     {{-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script> --}}
 
     <div class="grid grid-cols-3 gap-4">
-        <div class="flex items-center bg-[#0B1F4C] text-white px-6 py-4 mb-4 rounded-2xl shadow-md w-full space-x-4">
+        <div class="flex items-center bg-[#61a5fb] text-white px-6 py-4 mb-4 rounded-2xl shadow-md w-full space-x-4">
             <!-- Icon -->
             <div class="text-4xl">
                 <img src="{{ asset('img/icon/quota_corporate.png') }}" alt="">
@@ -13,13 +13,13 @@
 
             <!-- Text content -->
             <div>
-                <h2 class="text-lg font-semibold">Jumlah Responden </h2>
-                <p class="text-sm text-gray-400">100</p>
+                <h2 class="text-lg font-semibold">Jumlah Responden mengisi</h2>
+                <p class="text-sm text-slate-100">{{ $jumlah_responden }} Responden</p>
             </div>
         </div>
 
 
-        <div class="flex items-center bg-[#0B1F4C] text-white px-6 py-4 mb-4 rounded-2xl shadow-md w-full space-x-4">
+        <div class="flex items-center bg-[#61a5fb] text-white px-6 py-4 mb-4 rounded-2xl shadow-md w-full space-x-4">
             <!-- Icon -->
             <div class="text-4xl">
                 <img src="{{ asset('img/icon/quota_corporate.png') }}" alt="">
@@ -28,11 +28,11 @@
             <!-- Text content -->
             <div>
                 <h2 class="text-lg font-semibold">Nama Event </h2>
-                <p class="text-sm text-gray-400">Pelatihan ms.office</p>
+                <p class="text-sm text-slate-100">{{ $event->f_event_name }}</p>
             </div>
         </div>
 
-        <div class="flex items-center bg-[#0B1F4C] text-white px-6 py-4 mb-4 rounded-2xl shadow-md w-full space-x-4">
+        <div class="flex items-center bg-[#61a5fb] text-white px-6 py-4 mb-4 rounded-2xl shadow-md w-full space-x-4">
             <!-- Icon -->
             <div class="text-4xl">
                 <img src="{{ asset('img/icon/quota_corporate.png') }}" alt="">
@@ -41,7 +41,7 @@
             <!-- Text content -->
             <div>
                 <h2 class="text-lg font-semibold">Nama Perusahaan </h2>
-                <p class="text-sm text-gray-400">Universitas Ary Ginanjar</p>
+                <p class="text-sm text-slate-100">{{ $event->akun_client->f_account_name }}</p>
             </div>
         </div>
     </div>
@@ -209,13 +209,13 @@
 
         {{-- TOMBOL AKSI --}}
         <div class="flex items-center gap-3 mt-6">
-            <button type="submit" style="background-color: {{ $setting->color_primary ?? '#000165' }};"
+            <button type="submit" style="background-color: {{ $setting->color_primary ?? '#61a5fb' }};"
                 class="text-white py-2 px-4 rounded-[20px]">
                 Terapkan Filter
             </button>
 
             <a href="{{ route('monitoring.event', ['id' => $event->f_event_kode]) }}"
-                class="bg-white border px-4 py-2 rounded-[20px]">
+                class="bg-white border border-slate-300 px-4 py-2 rounded-[20px]">
                 Reset
             </a>
         </div>
@@ -238,7 +238,7 @@
             @endphp
 
             <div class="border border-slate-200 rounded-xl overflow-hidden">
-                <div class="p-4 bg-[#0B1F4C] text-white">
+                <div class="p-4 bg-[#61a5fb] text-white">
                     <h3 class="font-semibold">{{ $q->f_kode }} — {{ $q->f_item }}</h3>
                 </div>
 
