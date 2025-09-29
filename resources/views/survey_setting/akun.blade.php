@@ -128,133 +128,133 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <input class="text-slate-600" type="hidden" name="is_aktif_f_account_id"
+                            <input type="hidden" name="is_aktif_f_account_id"
                                 value="{{ $account_id }}">
                             <tr>
                                 <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Nama
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="checkbox" name="is_aktif_f_nama"
                                         {{ $setting_demografi->f_nama ? 'checked' : '' }}></td>
                    
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center"></td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_id_nama" value="{{ $label_others['nama']['indonesian'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_en_nama" value="{{ $label_others['nama']['english'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_my_nama" value="{{ $label_others['nama']['malaysia'] }}">
                                 </td>
                             <tr>
                             <tr>
                                 <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Email
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="checkbox" name="is_aktif_f_email"
                                         {{ $setting_demografi->f_email ? 'checked' : '' }}></td>
 
                          
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center"></td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_id_email" value="{{ $label_others['email']['indonesian'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_en_email" value="{{ $label_others['email']['english'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_my_email" value="{{ $label_others['email']['malaysia'] }}">
                                 </td>
                             <tr>
       
                                 <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Jenis kelamin
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="checkbox" name="is_aktif_f_gender"
                                         {{ $setting_demografi->f_gender ? 'checked' : '' }}></td>
 
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center"></td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_id_gender" value="{{ $label_others['gender']['indonesian'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_en_gender" value="{{ $label_others['gender']['english'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_my_gender" value="{{ $label_others['gender']['malaysia'] }}">
                                 </td>
                             </tr>
                             <tr>
                                 <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Usia</td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="checkbox" name="is_aktif_f_age"
                                         {{ $setting_demografi->f_age ? 'checked' : '' }}>
                                 </td>
                                 </td>
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center"></td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_id_age" value="{{ $label_others['age']['indonesian'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_en_age" value="{{ $label_others['age']['english'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_my_age" value="{{ $label_others['age']['malaysia'] }}">
                                 </td>
                             </tr>
                             <tr>
                                 <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Masa kerja
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="checkbox" name="is_aktif_f_masakerja"
                                         {{ $setting_demografi->f_masakerja ? 'checked' : '' }}></td>
 
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center"></td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_id_mk" value="{{ $label_others['mk']['indonesian'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_en_mk" value="{{ $label_others['mk']['english'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_my_mk" value="{{ $label_others['mk']['malaysia'] }}">
                                 </td>
                             </tr>
                             <tr>
                                 <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Pendidikan
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="checkbox" name="is_aktif_f_pendidikan"
                                         {{ $setting_demografi->f_pendidikan ? 'checked' : '' }}></td>
 
@@ -264,46 +264,46 @@
 
 
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center"></td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_id_education" value="{{ $label_others['education']['indonesian'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_en_education" value="{{ $label_others['education']['english'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_my_education" value="{{ $label_others['education']['malaysia'] }}">
                                 </td>
                             </tr>
                             <tr>
                                 <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Wilayah</td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="checkbox" name="is_aktif_f_region"
                                         {{ $setting_demografi->f_region ? 'checked' : '' }}></td>
 
                   
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
-                                        <input class="text-slate-600" type="checkbox"
+                                        <input type="checkbox"
                                 name="is_create_user_f_region" {{ $setting_create_user->f_region ? 'checked' : ''  }}>
                                 </td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_id_region" value="{{ $label_others['region']['indonesian'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_en_region" value="{{ $label_others['region']['english'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_my_region" value="{{ $label_others['region']['malaysia'] }}">
                                 </td>
                             </tr>
@@ -312,27 +312,27 @@
                                 <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Tingkat
                                     pekerjaan
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="checkbox" name="is_aktif_f_level_of_work"
                                         {{ $setting_demografi->f_level_of_work ? 'checked' : '' }}></td>
 
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
-                                        <input class="text-slate-600" type="checkbox"
+                                        <input type="checkbox"
                                 name="is_create_user_f_level_of_work" {{ $setting_create_user->f_level_of_work ? 'checked' : ''  }}>
                                 </td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_id_work" value="{{ $label_others['work']['indonesian'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_en_work" value="{{ $label_others['work']['english'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="label_my_work" value="{{ $label_others['work']['malaysia'] }}">
                                 </td>
                             </tr>
@@ -340,191 +340,138 @@
                             <tr>
                                 <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Tingkat 1
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="checkbox" name="is_aktif_f_level1"
                                         {{ $setting_demografi->f_level1 ? 'checked' : '' }}></td>
 
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
-                                        <input class="text-slate-600" type="checkbox"
+                                        <input type="checkbox"
                                 name="is_create_user_f_level1" {{ $setting_create_user->f_level1 ? 'checked' : ''  }}>
                                 </td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="id_label_level1" value="{{ $label_level1['indonesian'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="my_label_level1" value="{{ $label_level1['malaysia'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="en_label_level1" value="{{ $label_level1['english'] }}">
                                 </td>
                             </tr>
                             <tr>
                                 <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Tingkat 2
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="checkbox" name="is_aktif_f_level2"
                                         {{ $setting_demografi->f_level2 ? 'checked' : '' }}></td>
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
-                                        <input class="text-slate-600" type="checkbox"
+                                        <input type="checkbox"
                                 name="is_create_user_f_level2" {{ $setting_create_user->f_level2 ? 'checked' : ''  }}>
                                 </td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="id_label_level2" value="{{ $label_level2['indonesian'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="my_label_level2" value="{{ $label_level2['malaysia'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="en_label_level2" value="{{ $label_level2['english'] }}">
                                 </td>
                             </tr>
                             <tr>
                                 <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Tingkat 3
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="checkbox" name="is_aktif_f_level3"
                                         {{ $setting_demografi->f_level3 ? 'checked' : '' }}></td>
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
-                                        <input class="text-slate-600" type="checkbox"
+                                        <input type="checkbox"
                                 name="is_create_user_f_level3" {{ $setting_create_user->f_level3 ? 'checked' : ''  }}>
                                 </td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="id_label_level3" value="{{ $label_level3['indonesian'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="my_label_level3" value="{{ $label_level3['malaysia'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="en_label_level3" value="{{ $label_level3['english'] }}">
                                 </td>
                             <tr>
                                 <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Tingkat 4
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="checkbox" name="is_aktif_f_level4"
                                         {{ $setting_demografi->f_level4 ? 'checked' : '' }}></td>
 
                         
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
-                                        <input class="text-slate-600" type="checkbox"
+                                        <input type="checkbox"
                                 name="is_create_user_f_level4" {{ $setting_create_user->f_level4 ? 'checked' : ''  }}>
                                 </td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="id_label_level4" value="{{ $label_level4['indonesian'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="my_label_level4" value="{{ $label_level4['malaysia'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="en_label_level4" value="{{ $label_level4['english'] }}">
                                 </td>
                             </tr>
                             <tr>
                                 <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Tingkat 5
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="checkbox" name="is_aktif_f_level5"
                                         {{ $setting_demografi->f_level5 ? 'checked' : '' }}></td>
 
                  
                                 {{-- <td class="px-2 py-2 border border-slate-300 text-center">
-                                        <input class="text-slate-600" type="checkbox"
+                                        <input type="checkbox"
                                 name="is_create_user_f_level5" {{ $setting_create_user->f_level5 ? 'checked' : ''  }}>
                                 </td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="id_label_level5" value="{{ $label_level5['indonesian'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="my_label_level5" value="{{ $label_level5['malaysia'] }}">
                                 </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
+                                <td class="px-2 py-2 border border-slate-300 text-center"><input
                                         type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
+                                        class="w-full rounded-xl bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300"
                                         name="en_label_level5" value="{{ $label_level5['english'] }}">
                                 </td>
                             </tr>
-                            <tr>
-                                <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Tingkat 6
-                                </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_level6"
-                                        {{ $setting_demografi->f_level6 ? 'checked' : '' }}></td>
-                   
-                                {{-- <td class="px-2 py-2 border border-slate-300 text-center">
-                                        <input class="text-slate-600" type="checkbox"
-                                name="is_create_user_f_level6" {{ $setting_create_user->f_level6 ? 'checked' : ''  }}>
-                                </td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
-                                        name="id_label_level6" value="{{ $label_level6['indonesian'] }}">
-                                </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
-                                        name="my_label_level6" value="{{ $label_level6['malaysia'] }}">
-                                </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
-                                        name="en_label_level6" value="{{ $label_level6['english'] }}">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-2 py-2 border border-slate-300 font-normal text-sm text-center">Tingkat 7
-                                </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="checkbox" name="is_aktif_f_level7"
-                                        {{ $setting_demografi->f_level7 ? 'checked' : '' }}></td>
-              
-                                {{-- <td class="px-2 py-2 border border-slate-300 text-center">
-                                        <input class="text-slate-600" type="checkbox"
-                                name="is_create_user_f_level7" {{ $setting_create_user->f_level7 ? 'checked' : ''  }}>
-                                </td> --}}
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
-                                        name="id_label_level7" value="{{ $label_level7['indonesian'] }}">
-                                </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
-                                        name="my_label_level7" value="{{ $label_level7['malaysia'] }}">
-                                </td>
-                                <td class="px-2 py-2 border border-slate-300 text-center"><input class="text-slate-600"
-                                        type="text"
-                                        class="w-full rounded bg-slate-50 py-2 px-4 font-normal text-sm font-sans border-slate-300  "
-                                        name="en_label_level7" value="{{ $label_level7['english'] }}">
-                                </td>
-                            </tr>
+                            
                         </tbody>
                     </table>
                     <div class="flex justify-center">

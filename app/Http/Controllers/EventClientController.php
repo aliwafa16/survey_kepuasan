@@ -18,7 +18,12 @@ class EventClientController extends Controller
             'title' => 'Management Event Client',
             'btn_add' => "Tambah data"
         ];
-        $data['event_client'] = EventClient::with('akun_client')->paginate(10);
+
+                 $user = Auth::user();
+                $role = $user->groups->first()->id ?? null;
+        $data['event_client'] = EventClient::with('akun_client')->when($role != 1, function($q) use ($user){
+            return $q->where('f_account_id', $user->f_account_id);
+        })->paginate(10);
         return view('event_client.event_client', $data);
     }
 
@@ -110,8 +115,7 @@ class EventClientController extends Controller
             'data_account' => $dataAccout
         ];
 
-        $data['akun'] = AccountClient::where('is_corporate', 1)
-            ->when(Auth::user()->f_role !== 1, function ($query) {
+        $data['akun'] = AccountClient::when(Auth::user()->f_role !== 1, function ($query) {
                 $query->where('f_account_id', Auth::user()->f_account_id);
             })
             ->get();
@@ -127,7 +131,6 @@ class EventClientController extends Controller
 
             DB::beginTransaction();
             $validated = $request->validate([
-                'f_corporate_id' => 'required',
                 'f_event_name' => 'required|string|max:255',
                 'f_event_start' => 'required|date',
                 'f_event_start_time' => 'required|date_format:H:i',

@@ -111,7 +111,7 @@
     <div class="flex h-screen pb-10">
         <main class="flex-1 overflow-auto ">
 
-            @include('layouts.navigation')
+            {{-- @include('layouts.navigation') --}}
             <div class="p-6">
                 @yield('content')
             </div>

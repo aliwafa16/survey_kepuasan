@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ItemPernyataanController;
+use App\Http\Controllers\VariabelController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -213,6 +215,8 @@ Route::prefix('/master_data')->group(function () {
     Route::get('export_value_pendidikan', [PendidikanController::class, 'export_value'])->name('master_data.export_value_pendidikan');
 
 
+    Route::get('variabel', [VariabelController::class, 'index'])->name('master_data.variabel');
+    Route::get('item_pertanyaan', [ItemPernyataanController::class, 'index'])->name('master_data.item_pernyataan');
 
 
 

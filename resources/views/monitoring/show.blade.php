@@ -1,80 +1,66 @@
 @extends('layout.app')
 
 @section('content')
+<div class="space-y-6">
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
-
-
-    <h2 class="text-xl font-semibold mb-4">Monitoring Survey Users</h2>
-
-    {{-- {{ json_encode($decode) }} --}}
-
-
-
-    {{-- <div class="max-w-md flex mx-auto mb-6 space-x-6">
-        @if ($isRole1)
-        <div class="bg-white shadow-md rounded-2xl p-6 border border-gray-200">
-            <h2 class="text-xl font-semibold text-gray-800 mb-2">Kuota Corporate</h2>
-            <p class="text-gray-600 text-base break-all">
-                {{ $kuota->f_account_token }}
-            </p>
+    {{-- Header & Toolbar --}}
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-semibold">Monitoring</h1>
+            <p class="text-base text-slate-500">Daftar event beserta tautan Survey & Monitoring</p>
         </div>
-        @endif
-
-        <div class="bg-white shadow-md rounded-2xl p-6 border border-gray-200">
-            <h2 class="text-xl font-semibold text-gray-800 mb-2">Kuota {{ json_decode($settings->f_label_level1,true)['indonesian'] }}</h2>
-            <p id="kuota_level1" class="text-gray-600 text-base break-all">
-            Pilih terlebih dahulu
-            </p>
-        </div>
-
-    </div> --}}
-
-    <div class="flex">
-
-
-        {{-- <div class="flex items-center bg-[#0B1F4C] text-white px-6 py-4 mb-4 rounded-2xl shadow-md w-fit space-x-4 ml-4">
-            <!-- Icon -->
-            <div class="text-4xl">
-                <img src="{{ asset('img/icon/quota_opd.png') }}" alt="">
-            </div>
-
-            <!-- Text content -->
-            <div>
-            <h2 class="text-lg font-semibold">Kuota {{ json_decode($settings->f_label_level1,true)['indonesian'] }}</h2>
-            <p id="kuota_level1" class="text-sm text-gray-400">Pilih terlebih dahulu</p>
-
-            </div>
-        </div> --}}
-
-        {{-- <div class="flex items-center bg-[#0B1F4C] text-white px-6 py-4 mb-4 rounded-2xl shadow-md w-fit space-x-4 ml-4">
-            <div class="text-4xl">
-                <img src="{{ asset('img/icon/quota_opd.png') }}" alt="">
-            </div>
-
-            <div>
-                <a href="{{ url('survey', sha1(Auth::user()->f_account_id)) }}" class="text-lg font-semibold">Link
-                    Pengisian</a>
-            </div>
-        </div>
-
-
-        <div class="flex items-center bg-[#0B1F4C] text-white px-6 py-4 mb-4 rounded-2xl shadow-md w-fit space-x-4 ml-4">
-            <div class="text-4xl">
-                <img src="{{ asset('img/icon/quota_opd.png') }}" alt="">
-            </div>
-
-            <div>
-                <a href="{{ url('monitoring', sha1(md5(Auth::user()->f_account_id))) }}" class="text-lg font-semibold">Link
-                    Monitoring</a>
-            </div>
-        </div> --}}
     </div>
 
+    <div>
 
+    {{-- Table --}}
+    <div class="bg-white rounded-2xl shadow overflow-hidden p-6">
+        <div class="overflow-x-auto">
+            <table id="search-table" class="min-w-full table-auto">
+                <thead class="bg-slate-50 sticky top-0 z-10">
+                    <tr class="text-left text-sm text-slate-600">
+                        <th class="px-4 py-3 w-14 text-center">No.</th>
+                        <th class="px-4 py-3 text-center">Nama Akun</th>
+                        <th class="px-4 py-3 text-center">Nama Event</th>
+                        <th class="px-4 py-3 text-center">Nama</th>
+                        <th class="px-4 py-3 text-center">Email</th>
+                        <th class="px-4 py-3 text-center">Tanggal submit</th>
+                        <th class="px-4 py-3 text-center w-80">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="text-sm divide-y divide-slate-100">
+                    @forelse ($trnSurvey as $key => $user)
+                        <tr class="hover:bg-slate-50">
+                            <td class="px-4 py-3 text-center">{{ $key + 1 }}</td>
+                            <td class="px-4 py-3 text-center">
+                                {{ $user->account->f_account_name ?? '-' }}
+                            </td>
+                            <td class="px-4 py-3 text-center">
+                                {{ $user->events->f_event_name ?? '-' }}
+                            </td>
+                            <td class="px-4 py-3 text-center">{{ $user->f_survey_username }}</td>
+                            <td class="px-4 py-3 text-center">{{ $user->f_survey_email }}</td>
+                            <td class="px-4 py-3 text-center">{{ $user->f_survey_created_on }}</td>
+                           <td class="px-4 py-3">
+    <a href="{{ route('monitoring.event', ['id' => $user->events->f_event_kode, 'q' => $user->f_survey_username]) }}"
+       class="bg-blue-500 px-2 py-1 rounded-sm text-white">
+       Detail
+    </a>
+</td>
 
+                        </tr>
+                    @empty
+                        <tr>
+                            <td class="px-4 py-6 text-center text-slate-500" colspan="9">
+                                Belum ada data event.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
 
 @endsection

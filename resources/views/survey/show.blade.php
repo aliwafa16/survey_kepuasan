@@ -505,33 +505,7 @@ function previous() {
 }
 window.previous = previous; // dipakai di onclick
 
-// ====== changeLevel (jika dipakai) ======
-function changeLevel(level) {
-  const selector = '#'+($('#level_of_work').length ? 'level_of_work' : ('label_level' + level)); // fallback
-  const id = $(selector).val();
-  const nextSelector = '#label_level' + (level + 1);
 
-  $(nextSelector).prop('disabled', true).html('<option>Loading...</option>');
-
-  $.ajax({
-    url: "{{ Route('survey.getLevel') }}",
-    method: "POST",
-    data: { level, id },
-    dataType: "JSON",
-    success: function(response) {
-      let html = `<option value=""></option>`;
-      $.each(response, function(_, v) {
-        html += `<option value="${v['f_id']}">${escapeHtml(v['f_position_desc'])}</option>`;
-      });
-      $(nextSelector).html(html).prop('disabled', false);
-    },
-    error: function() {
-      $(nextSelector).html('<option value="">Gagal memuat</option>').prop('disabled', false);
-      Swal.fire({ icon: 'error', title: 'Error', text: 'Gagal memuat level berikutnya.' });
-    }
-  });
-}
-window.changeLevel = changeLevel;
 
 // ====== Mulai & Cek survey ======
 $('#mulai').on('click', function() {

@@ -41,44 +41,47 @@ class MonitoringController extends Controller
 
         $req = request(); // atau injeksikan di method controller
 
-$q = TrnSurvey::query()
-    ->where('f_event_id', $event->f_event_id);
+        $q = TrnSurvey::query()
+            ->where('f_event_id', $event->f_event_id);
 
-// ====== FILTER DEMOGRAFI (single select) ======
-$q->when($req->filled('gender'),        fn($x) => $x->where('f_gender',           $req->input('gender')));
-$q->when($req->filled('age'),           fn($x) => $x->where('f_age',              $req->input('age')));
-$q->when($req->filled('masa_kerja'),    fn($x) => $x->where('f_length_of_service',$req->input('masa_kerja')));
-$q->when($req->filled('region'),        fn($x) => $x->where('f_region',           $req->input('region')));
-$q->when($req->filled('level_of_work'), fn($x) => $x->where('f_level_of_work',    $req->input('level_of_work')));
-$q->when($req->filled('pendidikan'),    fn($x) => $x->where('f_pendidikan',       $req->input('pendidikan')));
+        // ====== FILTER DEMOGRAFI (single select) ======
+        $q->when($req->filled('gender'), fn($x) => $x->where('f_gender', $req->input('gender')));
+        $q->when($req->filled('age'), fn($x) => $x->where('f_age', $req->input('age')));
+        $q->when($req->filled('masa_kerja'), fn($x) => $x->where('f_length_of_service', $req->input('masa_kerja')));
+        $q->when($req->filled('region'), fn($x) => $x->where('f_region', $req->input('region')));
+        $q->when($req->filled('level_of_work'), fn($x) => $x->where('f_level_of_work', $req->input('level_of_work')));
+        $q->when($req->filled('pendidikan'), fn($x) => $x->where('f_pendidikan', $req->input('pendidikan')));
 
-// ====== FILTER LEVEL HIRARKI (jika ada field dinamis di form) ======
+        // ====== FILTER LEVEL HIRARKI (jika ada field dinamis di form) ======
 // Misal di form ada: level1, level2, ... level7 (single select semua)
-foreach (range(1,7) as $i) {
-    $param = "level{$i}";
-    $col   = "f_level{$i}";
-    $q->when($req->filled($param), fn($x) => $x->where($col, $req->input($param)));
-}
+        foreach (range(1, 7) as $i) {
 
-// ====== RANGE TANGGAL RESPON ======
-$q->when($req->filled('date_start'), fn($x) => $x->whereDate('f_survey_created_on', '>=', $req->date('date_start')));
-$q->when($req->filled('date_end'),   fn($x) => $x->whereDate('f_survey_created_on', '<=', $req->date('date_end')));
-
-// ====== KEYWORD (nama/email/IP) ======
-$q->when($req->filled('q'), function ($x) use ($req) {
-    $kw = $req->input('q');
-    $x->where(function ($w) use ($kw) {
-        $w->where('f_survey_username', 'like', "%{$kw}%")
-          ->orWhere('f_survey_email',   'like', "%{$kw}%")
-          ->orWhere('f_ip_address',     'like', "%{$kw}%");
-    });
-});
-
-// ====== EKSEKUSI QUERY ======
-$trnSurvey = $q->get();
+            
+            $param = "label_level{$i}";
+            $col = "f_level{$i}";
+            $q->when($req->filled($param), fn($x) => $x->where($col, $req->input($param)));
+        }
 
 
-$jumlah_responden = $trnSurvey->count();
+        // ====== RANGE TANGGAL RESPON ======
+        $q->when($req->filled('date_start'), fn($x) => $x->whereDate('f_survey_created_on', '>=', $req->date('date_start')));
+        $q->when($req->filled('date_end'), fn($x) => $x->whereDate('f_survey_created_on', '<=', $req->date('date_end')));
+
+        // ====== KEYWORD (nama/email/IP) ======
+        $q->when($req->filled('q'), function ($x) use ($req) {
+            $kw = $req->input('q');
+            $x->where(function ($w) use ($kw) {
+                $w->where('f_survey_username', 'like', "%{$kw}%")
+                    ->orWhere('f_survey_email', 'like', "%{$kw}%")
+                    ->orWhere('f_ip_address', 'like', "%{$kw}%");
+            });
+        });
+
+        // ====== EKSEKUSI QUERY ======
+        $trnSurvey = $q->get();
+
+
+        $jumlah_responden = $trnSurvey->count();
 
 
         $itemPertanyaan = ItemPernyataanModel::all();
@@ -289,224 +292,17 @@ $jumlah_responden = $trnSurvey->count();
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    //     public function show(Request $request)
-// {
-//     $query = TrnSurvey::with('level1', 'level2', 'level3')
-//         ->where('created_by', 8);
-
-    //     if ($request->filled('f_level1')) {
-//         $query->where('f_level1', $request->f_level1);
-//     }
-//     if ($request->filled('f_level2')) {
-//         $query->where('f_level2', $request->f_level2);
-//     }
-//     if ($request->filled('f_level3')) {
-//         $query->where('f_level3', $request->f_level3);
-//     }
-
-    //     $surveyUsers = $query->paginate(25); // ✅ Pake pagination
-
-    //     // ✅ Caching master data
-//     $level1Options = Cache::remember('level1_options', 3600, fn() => Level1::all());
-//     $level2Options = Cache::remember('level2_options', 3600, fn() => Level2::all());
-//     $level3Options = Cache::remember('level3_options', 3600, fn() => Level3::all());
-
-    //     return view('monitoring.show', compact(
-//         'surveyUsers',
-//         'level1Options',
-//         'level2Options',
-//         'level3Options'
-//     ));
-// }
-
-    // public function show(Request $request)
-// {
-//     if ($request->ajax()) {
-//         $query = TrnSurvey::select([
-//             'f_id',
-//             'f_survey_username',
-//             'f_email',
-//             'f_level1',
-//             'f_level2',
-//             'f_level3',
-//             'f_level_of_work',
-//             'f_survey_valid',
-//             'f_corporate_id'
-//         ])->with(['level1', 'level2', 'level3', 'levelwork'])
-//             ->where('f_corporate_id', Auth::user()->f_account_id);
-//         if ($request->filled('levelwork')) {
-//                 $query->where('f_level_of_work', $request->levelwork);
-//         }
-//         if ($request->filled('f_level1')) {
-//             $query->where('f_level1', $request->f_level1);
-//         }
-//         if ($request->filled('f_level2')) {
-//             $query->where('f_level2', $request->f_level2);
-//         }
-//         if ($request->filled('f_level3')) {
-//             $query->where('f_level3', $request->f_level3);
-//         }
-
-    //         return DataTables::of($query)
-//     ->addIndexColumn()
-//     ->addColumn('checkbox', function ($row) {
-//         return '<input type="checkbox" class="row-checkbox"
-//             data-id="' . sha1(md5($row->f_id)) . '"
-//             data-username="' . $row->f_survey_username . '"
-//             data-email="' . $row->f_email . '"
-//             data-level1="' . ($row->level1->f_position_desc ?? '') . '"
-//             data-level2="' . ($row->level2->f_position_desc ?? '') . '"
-//             data-level3="' . ($row->level3->f_position_desc ?? '') . '"
-//             data-levelwork="' . ($row->levelwork->f_levelwork_desc ?? '') . '" />';
-//     })
-//     ->editColumn('levelwork.f_levelwork_desc', function ($row) {
-//         return $row->levelwork->f_levelwork_desc ?? '';
-//     })
-//     ->editColumn('level1.f_position_desc', function ($row) {
-//         return $row->level1->f_position_desc ?? '';
-//     })
-//     ->editColumn('level2.f_position_desc', function ($row) {
-//         return $row->level2->f_position_desc ?? '';
-//     })
-//     ->editColumn('level3.f_position_desc', function ($row) {
-//         return $row->level3->f_position_desc ?? '';
-//     })
-
-    //     // 🔍 Ini bagian penting: custom filter buat relasi
-//     ->filterColumn('level1.f_position_desc', function($query, $keyword) {
-//         $query->whereHas('level1', function($q) use ($keyword) {
-//             $q->where('f_position_desc', 'like', "%{$keyword}%");
-//         });
-//     })
-//     ->filterColumn('level2.f_position_desc', function($query, $keyword) {
-//         $query->whereHas('level2', function($q) use ($keyword) {
-//             $q->where('f_position_desc', 'like', "%{$keyword}%");
-//         });
-//     })
-//     ->filterColumn('level3.f_position_desc', function($query, $keyword) {
-//         $query->whereHas('level3', function($q) use ($keyword) {
-//             $q->where('f_position_desc', 'like', "%{$keyword}%");
-//         });
-//     })
-
-    //     ->addColumn('action', function ($row) {
-//         return $row->f_survey_valid === 'yes'
-//             ? '<a href="https://talentdna.me/tdna/trx_survey/fnTrx_surveyDetail/' . $row->f_email . '" class="text-blue-600 underline">Download</a>'
-//             : '';
-//     })
-//     ->rawColumns(['checkbox', 'action'])
-//     ->make(true);
-
-    //     }
-
-    //     $level1Options = Cache::remember('level1_options', 3600, fn() => Level1::where('f_account_id',Auth::user()->f_account_id)->get());
-//     $level2Options = Cache::remember('level2_options', 3600, fn() => Level2::where('f_account_id',Auth::user()->f_account_id)->get());
-//     $level3Options = Cache::remember('level3_options', 3600, fn() => Level3::where('f_account_id',Auth::user()->f_account_id)->get());
-//     $levelworkOptions = LevelWork::where('f_account_id',Auth::user()->f_account_id)->get();
-
-    //     return view('monitoring.show', compact(
-//         'level1Options', 'level2Options', 'level3Options','levelworkOptions',
-//     ));
-// }
 
     public function show(Request $request)
     {
-        // $kuota = DB::table('t_account')->select('*')->where('f_account_id', Auth::user()->f_account_id)->first();
-        // $sisa = DB::table('trn_survey_empex')->where('f_corporate_id', Auth::user()->f_account_id)->count();
-        // //  echo json_encode($kuota);die();
+        
 
-        // $settings = SurveySetting::where('f_account_id', Auth::user()->f_account_id)->first();
-        // if ($request->ajax()) {
-        //     $query = DB::table('trn_survey_empex')
-        //         ->leftJoin('table_level_position1', 'trn_survey_empex.f_level1', '=', 'table_level_position1.f_id')
-        //         ->leftJoin('table_level_position2', 'trn_survey_empex.f_level2', '=', 'table_level_position2.f_id')
-        //         ->leftJoin('table_level_position3', 'trn_survey_empex.f_level3', '=', 'table_level_position3.f_id')
-        //         ->leftJoin('table_level_work', 'trn_survey_empex.f_level_of_work', '=', 'table_level_work.f_id')
-        //         ->where('trn_survey_empex.f_corporate_id', Auth::user()->f_account_id)
-        //         ->select([
-        //             'trn_survey_empex.f_id as survey_id',
-        //             'trn_survey_empex.f_survey_username',
-        //             'trn_survey_empex.f_email',
-        //             'trn_survey_empex.f_level1',
-        //             'trn_survey_empex.f_level2',
-        //             'trn_survey_empex.f_level3',
-        //             'trn_survey_empex.f_level_of_work',
-        //             'trn_survey_empex.f_survey_valid',
-        //             'table_level_position1.f_position_desc as level1_desc',
-        //             'table_level_position2.f_position_desc as level2_desc',
-        //             'table_level_position3.f_position_desc as level3_desc',
-        //             'table_level_work.f_levelwork_desc as levelwork_desc',
-        //         ]);
-
-        //     if ($request->filled('levelwork')) {
-        //         $query->where('trn_survey_empex.f_level_of_work', $request->levelwork);
-        //     }
-        //     if ($request->filled('f_level1')) {
-        //         $query->where('trn_survey_empex.f_level1', $request->f_level1);
-        //     }
-        //     if ($request->filled('f_level2')) {
-        //         $query->where('trn_survey_empex.f_level2', $request->f_level2);
-        //     }
-        //     if ($request->filled('f_level3')) {
-        //         $query->where('trn_survey_empex.f_level3', $request->f_level3);
-        //     }
-
-        //     return DataTables::of($query)
-        //         ->addIndexColumn()
-        //         ->addColumn('checkbox', function ($row) {
-        //             return '<input type="checkbox" class="row-checkbox"
-        //             data-id="' . sha1(md5($row->survey_id)) . '"
-        //             data-username="' . $row->f_survey_username . '"
-        //             data-email="' . $row->f_email . '"
-        //             data-level1="' . ($row->level1_desc ?? '') . '"
-        //             data-level2="' . ($row->level2_desc ?? '') . '"
-        //             data-level3="' . ($row->level3_desc ?? '') . '"
-        //             data-levelwork="' . ($row->levelwork_desc ?? '') . '" />';
-        //         })
-        //         ->editColumn('level1_desc', fn($row) => $row->level1_desc ?? '')
-        //         ->editColumn('level2_desc', fn($row) => $row->level2_desc ?? '')
-        //         ->editColumn('level3_desc', fn($row) => $row->level3_desc ?? '')
-        //         ->editColumn('levelwork_desc', fn($row) => $row->levelwork_desc ?? '')
-        //         ->filterColumn('level1_desc', function ($query, $keyword) {
-        //             $query->where('level1.f_position_desc', 'like', "%{$keyword}%");
-        //         })
-        //         ->filterColumn('level2_desc', function ($query, $keyword) {
-        //             $query->where('level2.f_position_desc', 'like', "%{$keyword}%");
-        //         })
-        //         ->filterColumn('level3_desc', function ($query, $keyword) {
-        //             $query->where('level3.f_position_desc', 'like', "%{$keyword}%");
-        //         })
-        //         ->addColumn('action', function ($row) {
-        //             return $row->f_survey_valid === 'yes'
-        //                 ? '<a href="' . url('reports/createPdf/'.$row->f_email) . '" class="text-blue-600 underline">Download</a>'
-        //                 : '';
-        //         })
-        //         ->rawColumns(['checkbox', 'action'])
-        //         ->make(true);
-        // }
-
-        // // Master options
-
-
-
-        // $decode = json_decode(Auth::user()->nosj, true);
-
-        // $level1Options = DB::table('table_level_position1')->where('f_account_id', Auth::user()->f_account_id)->get();
-        // $level2Options = DB::table('table_level_position2')
-        //     ->where('f_account_id', Auth::user()->f_account_id)
-        //     // ->whereIn('f_id', $decode['f_level2'] ?? [])
-        //     ->get();
-
-        // $level3Options = DB::table('table_level_position3')
-        //     ->where('f_account_id', Auth::user()->f_account_id)
-        //     // ->whereIn('f_id', $decode['f_level3'] ?? [])
-        //     ->get();
-        // $levelworkOptions = DB::table('table_level_work')->where('f_account_id', Auth::user()->f_account_id)->get();
-
-        return view('monitoring.show');
+               $user = Auth::user();
+                $role = $user->groups->first()->id ?? null;
+        $trnSurvey = TrnSurvey::when($role != 1, function($q) use($user){
+            $q->where('f_account_id', $user->f_account_id);
+        })->with(['account','events','level1','level2','level3','level4','level5','relasi_pendidikan','relasi_gender','relasi_umur','relasi_masa_kerja','relasi_wilayah','relasi_jabatan'])->get();
+        return view('monitoring.show', compact('trnSurvey'));
     }
 
 

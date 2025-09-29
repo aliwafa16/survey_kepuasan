@@ -55,8 +55,7 @@
                     <th class="text-center">Nama Event</th>
                     <th class="text-center">Start date</th>
                     <th class="text-center">End Date</th>
-                    <th class="text-center">Report Type</th>
-                    <th class="text-center">Tipe survey</th>
+                    <th class="text-center">Status</th>
                     <th class="text-center">Min Responden</th>
                     <th class="text-center">Action</th>
                 </tr>
@@ -73,12 +72,11 @@
                         </td>
                         <td class="text-center">{{ $user->f_event_start }} {{ $user->f_event_start_time }}</td>
                         <td class="text-center">{{ $user->f_event_end }} {{ $user->f_event_end_time }}</td>
-                        <td class="text-center">{{ $user->f_report_type }}</td>
                         <td class="text-center">
-                            @if($user->f_event_type == 1)
-                                Pengecekan kata kunci
+                            @if($user->f_event_status == 1)
+                                Aktif
                             @else
-                                Tanpa pengecekan kunci
+                                Tidak Aktif
                             @endif
                      </td>
                         <td class="text-center">{{ $user->f_event_min_respon }}</td>

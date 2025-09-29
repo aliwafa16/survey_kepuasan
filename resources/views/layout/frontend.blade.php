@@ -9,14 +9,19 @@
 
 
             <!-- Favicon-->
-    <link rel="shortcut icon" href="https://talentdna.me/tdna/assets/images/fav_talent_dna.png" type="image/x-icon">
+    {{-- <link rel="shortcut icon" href="https://talentdna.me/tdna/assets/images/fav_talent_dna.png" type="image/x-icon">
     <link rel="icon" type="image/*" href="https://talentdna.me/tdna/assets/images/fav_talent_dna.png">
     <link rel="apple-touch-icon" type="image/x-icon" href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
     <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
     <meta property="og:image" content="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
-    <meta property="twitter:image" content="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png">
+    <meta property="twitter:image" content="https://talentdna.me/tdna/assets/survey/img/fav_talent_dna.png"> --}}
+
+
+    <link rel="icon" href="https://actconsulting.co/wp-content/uploads/2021/06/cropped-fav-icon-ACT-Consulting-32x32.png" sizes="32x32" />
+<link rel="icon" href="https://actconsulting.co/wp-content/uploads/2021/06/cropped-fav-icon-ACT-Consulting-192x192.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://actconsulting.co/wp-content/uploads/2021/06/cropped-fav-icon-ACT-Consulting-180x180.png" />
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">

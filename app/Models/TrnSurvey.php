@@ -2,9 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Usia;
 use App\Models\Level1;
 use App\Models\Level2;
 use App\Models\Level3;
+use App\Models\Level4;
+use App\Models\Level5;
+use App\Models\Wilayah;
+use App\Models\LevelWork;
+use App\Models\MasaKerja;
+use App\Models\Pendidikan;
+use App\Models\JenisKelamin;
+use App\Models\AccountClient;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -81,8 +90,48 @@ public function level3()
     return $this->belongsTo(Level3::class, 'f_level3', 'f_id');
 }
 
-public function levelwork()
+public function level4()
 {
-    return $this->belongsTo(LevelWork::class, 'f_level_of_work', 'f_id');
+    return $this->belongsTo(Level4::class, 'f_level4', 'f_id');
 }
+
+public function level5()
+{
+    return $this->belongsTo(Level5::class, 'f_level5', 'f_id');
+}
+
+public function relasi_gender(){
+        return $this->belongsTo(JenisKelamin::class, 'f_gender', 'f_gender_id');
+    }
+
+        public function relasi_umur(){
+        return $this->belongsTo(Usia::class, 'f_age', 'f_id');
+    }
+
+    public function relasi_masa_kerja(){
+        return $this->belongsTo(MasaKerja::class, 'f_length_of_service', 'f_id');
+    }
+
+    public function relasi_wilayah(){
+        return $this->belongsTo(Wilayah::class, 'f_region', 'f_id');
+    }
+    
+    public function relasi_jabatan(){
+        return $this->belongsTo(LevelWork::class, 'f_level_of_work', 'f_id');
+    }
+
+        public function relasi_pendidikan(){
+        return $this->belongsTo(Pendidikan::class, 'f_pendidikan', 'f_id');
+    }
+
+        public function account()
+    {
+        return $this->belongsTo(AccountClient::class, 'f_account_id');
+    }
+
+
+            public function events()
+    {
+        return $this->belongsTo(EventClient::class, 'f_event_id' );
+    }
 }
